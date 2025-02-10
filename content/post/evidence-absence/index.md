@@ -28,7 +28,15 @@ image:
 projects: []
 ---
 
-The problem with this sort of question is that what we can conclude from absence of evidence depends on things about the specific claims and our ability to test them. Consider two claim, C1 and C2 for which there is no direct evidence.
+My fellow Atheists and some of the people they end up arguing with sometimes make broad statements about whether the absence of evidence constitutes evidence of absence.
+My goal here is to unask that question and attempt to shine some light on the better question:
+Under what conditions does the absence of evidence provide some evidence of absence?
+While I will try to show how this better question can be used to help improve the theological discussions, I will not be weighing in on those arguments.
+The examples I raise will not be theological.
+
+## Contrasting claims
+
+Consider two claim, C1 and C2 for which there is no direct evidence.
 
 C1
 : There is a family of elephants living in the refrigerator in my kitchen.
@@ -74,6 +82,7 @@ So now lets construct two other claims to illustrate different combinations
 
 C3
 : There is a forth planet around the millionth brightest star in the Sculptor galaxy on which there is a family of African elephants living in a refrigerator
+
 C4
 : Ignoring air resistance, a heavier object will fall faster than a lighter one
 
@@ -81,5 +90,28 @@ C4 is false, but it is unsurprising that it was only questioned 500 years ago.
 So I feel comfortable saying that it has a high prior probability.
 And once C4 was questioned it was easy to find evidence that would test it.
 
+You don't have to agree with my particular judgements about the four example claims I've provided.
+If you are not happy with my examples you can construct your own
+which, in your judgement, cover the four combinations of
+prior probability and feasibility of distinguishing evidence.
 
+1. Low prior probability, low feasibility of distinguishing evidence (C3)
+2. Low prior probability, high feasibility of distinguishing evidence (C1)
+3. High prior probability, low feasibility of distinguishing evidence (C2)
+4. High prior probability, high feasibility of distinguishing evidence (C4)
+
+### Why do prior probabilities matter?
+
+In asking when absence of evidence is evidence of absence it would seem that only the feasibility of distinguishing evidence would play a role.
+Yet I also talked about the prior probabilities of claims.
+There are a number of expository reasons I did so, but what where it will become most relevant is
+when we consider the strength of evidence.
+One the whole, we require stronger evidence before we are willing to believe
+things that we see as implausible than for things that we consider highly likely.
+
+Quite simply, the persuasiveness of any particular piece of evidence for some claim depends not only
+on the extent to which the evidence is distinguishing,
+but to how plausible or implausible the claim is prior to looking at the evidence.
+I will return to this later,
+but I note it here for one of the reasons that I introduced prior probabilities early.
 
