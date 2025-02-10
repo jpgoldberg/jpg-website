@@ -28,34 +28,58 @@ image:
 projects: []
 ---
 
-The problem with this sort of question is that what we can conclude from absense of evidence depends on things about the specific claims and our ability to test them. Consider two claim, C1 and C2 for which there is no direct evidence.
+The problem with this sort of question is that what we can conclude from absence of evidence depends on things about the specific claims and our ability to test them. Consider two claim, C1 and C2 for which there is no direct evidence.
 
-C1: There is a family of elephants living in the refrigerator in my kitchen.
+C1
+: There is a family of elephants living in the refrigerator in my kitchen.
 
-C2: There are some stars with planets orbiting them in the Sculptor galaxy.
+C2
+: There are some stars with planets orbiting them in the galaxy BX422.
 
-There is no evidence for either of those claims, but it is reasonable to conclude C1 is almost certainly false and C2 is almost certainly true. And indeed for C1 we correctly treat the absense of evidence as evidence of absense, while for C2 we do not treat the absense of evidence as evidence of absense.
+There is no evidence for either of those claims, but it is reasonable to conclude C1 is almost certainly false and C2 is almost certainly true. And indeed for C1 we correctly treat the absence of evidence as evidence of absence, while for C2 we do not treat the absence of evidence as evidence of absence.
 
 ## Different prior probabilities
 
-There are two things that make C1 and C2 different from each other. The first is that C1 is highly implausible even before we consider evidence. That is it has a low prior probability. C2, on the other hand, has a very high prior probability. While we don't have the tech to detect planets in the Sculptor galaxy, we have good reasont to believe it is a galaxy like ours, and ours has lots of planets.
+There are two things that make C1 and C2 different from each other. The first is that C1 is highly implausible even before we consider evidence. That is it has a low prior probability. C2, on the other hand, has a very high prior probability. While we don't have the tech to detect planets in BX422 galaxy, we have good reason to believe that although much older than our galaxy it will have a distribution of stars that have been shown to have planets in our own galaxy.
 
-## Possibible evidence
+## Feasible distinguishing evidence
 
-If C1 were true, there would be lots of evidence for it (e.g, elephant footprints in the butter). Elephants are really big and visiable in the kind of space we'd need to search. Quite simply we know what sorts of evidence we would expect to observe if C1 were true.
+If C1 were true, there would be lots of evidence for it (e.g, elephant footprints in the butter). Elephants are really big and visible in the kind of space we'd need to search. Quite simply we know what sorts of evidence we would expect to observe if C1 were true.
 
-With C2 we don't have that. The ability to detect planets outside of our solar system in our own galaxy is new. The ability to detect planets in a galaxy as far away as the Sculpter galaxy is not somethng that we have.
+With C2 we don't have that. The ability to detect planets outside of our solar system in our own galaxy is new. The ability to detect planets in a galaxy as far away as BX422 is not something that we have.
 
-When I look in my kitchen I can immediately determine that there are no elephants living there. But when someone looks at the Sculptor galaxy (I don't have a good enough telescope to do so), what they shows no evidence either way about the presense or abstance of planets. What we see is the same whether there are or aren't.
+When I look in my kitchen I can immediately determine that there are no elephants living there.
+But when someone looks at data from BX422,
+what they shows no evidence either way about the presence or absence of planets.
+That is, what shows up in the data is consistent both with the presence or absence of planets.
 
-## No simple formula
+So a general statement of "absence of evidence is (or is not) evidence of absence" is just not something we can adopt as a principle without looking at properties of the specific claims and the feasibility of distinguishing evidence.
 
-So a general statement of "absence of evidence is (or is not) evidence of absense" is just not something we can adopt as a principle.
+## Distinctions and dimensions
 
-## Applying to claims about the existence of a god
+Our examples so far illustrate a case (C1) in which the claim has a low prior probability and evidence for the claim would be available if the claim were true;
+and a case (C2) in which the claim as a high prior probability but evidence for the for the claim would not be available if the claim were true.
 
-At this point, let me add a third claim for which there is no evidence.
+So we are talking about two dimensions along which claims can differ from each other:
 
-C3: There is a family of African elephants living on the 4th planet oribiting the the millionth brighetest star in the Sculptor galaxy.
+Prior probability dimension
+: The probability of the claim being true before we consider the specific evidence.
+Feasibility of distinguishing evidence (FDE) dimension
+: If the claim is true, how easy it is it to find evidence of its truth.
 
-This is like C2 in that we just aren't 
+In these terms, C1 is low on prior probability and high on FDE,
+while C2 is high on prior probability and low on FDE.
+
+So now lets construct two other claims to illustrate different combinations
+
+C3
+: There is a forth planet around the millionth brightest star in the Sculptor galaxy on which there is a family of African elephants living in a refrigerator
+C4
+: Ignoring air resistance, a heavier object will fall faster than a lighter one
+
+C4 is false, but it is unsurprising that it was only questioned 500 years ago.
+So I feel comfortable saying that it has a high prior probability.
+And once C4 was questioned it was easy to find evidence that would test it.
+
+
+
