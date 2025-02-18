@@ -141,6 +141,12 @@ but to how plausible or implausible the claim is prior to looking at the evidenc
 I will return to this later,
 but I note it here for one of the reasons that I introduced prior probabilities early.
 
+## Where does God fit?
+
+
+
+
+
 [C1]: {{< relref "#C1" >}} "Elephant in my kitchen"
 [C2]: {{< relref "#C2" >}} "Planets in BX442"
 [C3]: {{< relref "#C3" >}} "Elephants in BX442 kitchen"
