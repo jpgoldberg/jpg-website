@@ -69,13 +69,15 @@ projects: []
 ---
 
 Google's introduction of the `otpauth` URI scheme made it easy
-for people and organization to deploy
+for people and organizations to deploy
 and for individuals to enroll in
 {{<abbr TOTP "Time-based One Time Password">}} authentication.
 However, the initial implementations and description of the scheme left a number of ambiguities in and inconsistencies in place.
 
 This 2019 PasswordsCon talk discussed those ambiguities and contradictions along with some of the consequences I had observed.
-I argue that in general we need more well-constructed standards and compliance with those standards, even though I don't offer a clear path for fixed TOTP.
+I argue that in general we need more well-constructed standards and compliance with those standards
+even though I don't offer a clear path for fixing
+<abbr title="Time-based One Time Password">TOTP</abbr>.
 
 ## Context for these slides
 
