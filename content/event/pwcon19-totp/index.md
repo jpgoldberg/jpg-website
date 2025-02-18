@@ -51,7 +51,7 @@ url_slides: /uploads/totp-talk.pdf
 
 url_code:
 url_pdf:
-url_video:
+url_video: https://youtu.be/-oG9vqheYZw?si=xIzqG1WrMJQGS1Tt
 
 # Markdown Slides (optional).
 #   Associate this event with Markdown slides.
@@ -68,14 +68,14 @@ slides: ""
 projects: []
 ---
 
-Google's introduction of the `otpauth` URI scheme made it easy 
+Google's introduction of the `otpauth` URI scheme made it easy
 for people and organization to deploy
 and for individuals to enroll in
 {{<abbr TOTP "Time-based One Time Password">}} authentication.
-However, the initial implementations and description of the scheme left a number of ambiguities in and inconsistences in place.
+However, the initial implementations and description of the scheme left a number of ambiguities in and inconsistencies in place.
 
 This 2019 PasswordsCon talk discussed those ambiguities and contradictions along with some of the consequences I had observed.
-I agrue that in general we need more well-constructed standards and complience with those standards, even though I don't offer a clear path for fixed TOTP.
+I argue that in general we need more well-constructed standards and compliance with those standards, even though I don't offer a clear path for fixed TOTP.
 
 ## Context for these slides
 
