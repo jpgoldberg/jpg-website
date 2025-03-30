@@ -156,3 +156,69 @@ but I note it here for one of the reasons that I introduced prior probabilities 
 [FDE]: {{< relref "dt.fde" >}} "Feasibility of distinguishing evidence"
 
 [BX442]: https://en.wikipedia.org/wiki/BX442 "Wikipedia: BX442"
+
+
+Let me state from the outset that I am in Atheist, as I believe that there are no gods given a reasonable definition of such things. I also very strongly believe that the burden of proof lies with the theist, as I assign a very low prior probability to the existence of a god. But ...
+
+## I can't justify my low prior probability
+
+As I said, I believe that the burden of proof lies with the theist. But I think that we Atheists have a hole in our arguments for that assertion. Before I get into that, I would like to remind everyone why burden of proof matters.
+
+### Ordinary and extraordinary claims
+
+If I were to tell you (in some normal context) that I have a degree from the University of California, Los Angeles you might believe me with very little supporting evidence. And a copy of transcripts would be good evidence if you needed it. But if I were to tell you that I have a degree from the University of Pluto, no amount of paperwork would convince you.
+
+This illustrates the fact that persuasiveness of some peice of evidence for a claim depends on (among other things) the prior plausibility of the claim. This is caputred by Bayes' Theorem.
+
+Notation: P(X|Y) is to be read as "probability of X given Y". Y is often the result of some experiment designed to test hypothesis X.
+
+Bayes' Theorem (special case):
+
+    P(H|E) = P(E|H)P(H)/P(E)
+
+The probability of some hypothesis, H given some evidence, E, depends on a number of things including the propobility of H without the evidence. The probability of H without the evidence is call the "prior probability". It doesn't necessarily mean prior in time, but just think of it as the plausibility of H before considering the evidence, E.
+
+The difference between P(H) (prior probability) and P(H|E) (posterior probability) is a way to think about how persuasive some piece of evidence is. A document claiming to be a unversity transcript is going to be more persuasive in the UCLA than in the University of Pluto case.
+
+#### Bayes and the burden of proof
+
+If we talk about how distinguishing a piece of evidence is by leaving aside the prior probability. The ratio P(E|H)/P(E) can be thought of the quality of the evidence indepedent of the prior probability.
+
+If the prior probability, P(H) is low, we need P(E|)/P(E) to be high for it to help convince us. A very low P(H) mean that H is an "extraordinary claim". A very high P(E|)/P(E) means that E is "extraordinary evidence". And when we talk about burden of proof we are talking about who needs to present better evidence in this sense.
+
+If we use ~H to mean "H is false" and use F as evidence for ~F then when we say that the burden of proof lies with with someone claiming H, we are saying that
+
+   P(E|H)/P(E) > P(F|~H)/P(F)
+
+When we say that those claiming H have a higher burden of proof than those denying H we are saying that the evidence evidence for H needs to be better than the evidence against H.
+
+#### Interpreting evidence for gods
+
+If someone reports that they pushed the "close door" button in an elevator and the door closed quickly afterwards, we might consider that as mildly persausive  evidence that those buttons do what they say, though we also acknowledge that it might a a coincidence or that the person tends to push the button right before the door would close on its own.
+
+But someone says they prayed for rain and it rained, we are less likely to take that as persuasive in any way whatsover. We very eagerly look for alternative explanations. There are a zillon examples like this where we Atheists (myself included) seek alternative explanations for any evidence a theist presents. 
+
+The point here is that the low prior probability I (and other Atheists) assign to the existence of some god plays an enormous role in how we evaluate the persuasiveness of any piece of evidence. I strongly and sincerely believe that we are correct to assign a very low prior probability to the existence of god(s), but whether I can justify my belief is a more difficult question.
+
+
+## Atheist arguments for the low prior probability
+
+Many of my fellow Atheists make what I conside to be silly arguments about the burden of proof. Not all are silly, but let me briefly cover the silliest.
+
+### Who made the claim
+
+If I make the claim that there is a floor beneath the chair I am sitting on, does that place the burden of proof on me because I made the claim? Or would someone denying my claim have a larger burden of proof? I hope that everyone agrees that the person who denies my claim would carry more of the burden of proof. It has nothing to do with who made a claim first, but it has everything to do with whose claim has the lower prior probability.
+
+### Positive and negative claims
+
+People talk about positive and negative claims. When that gets refined to something meaningful it is usually about claims of existence. The view is that those making a claim that something exists have the burden of proof. So consider this existence claim:
+
+> There are some stars with planets orbiting them in the galaxy BX442.
+
+That is clearly an existence claim. It is also far beyond our capacity at this time to detect any planets there if they exist. So we really have no evidence we can present of the existence of such planets. But it is perfectly reasonable to believe that claim and consider it far more plausible than its denial.
+
+### Atheism is a lack of belief
+
+(It probably better if I don't get into this one. Let's just say that I utterly reject that. But even if there really are people who state that they are Atheists who genuinely lack a belief in a way that is distinct from agnostism, there are also Atheists like me who very much hold a belief that there are not gods).
+
+
