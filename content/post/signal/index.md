@@ -88,9 +88,9 @@ anything was amiss.
 >}}
 With Signal there are (annoying) protocols that people can go through
 to [verify other parties](https://support.signal.org/hc/en-us/articles/360007060632-What-is-a-safety-number-and-why-do-I-see-that-it-changed).
-Performing that verification is options, and last I heard only a tiny portion
-Signal users do so
-despite Signals efforts to
+Performing that verification is optional,
+and last I heard only a tiny portion
+Signal users do so despite Signal's efforts to
 [make the process easier](https://signal.org/blog/safety-number-updates/)
 with Signal.
 It is a subtle concept, and it is easy for people to get wrong.
