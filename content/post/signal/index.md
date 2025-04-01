@@ -8,7 +8,7 @@ authors: [jpgoldberg]
 tags: []
 categories: []
 date: 2025-03-31T17:07:01-05:00
-lastmod: 2025-03-31T17:07:01-05:00
+lastmod: 2025-04-01T06:30+00:00
 featured: false
 draft: true
 
@@ -75,7 +75,7 @@ Without such verification an adversary could pretend to be, say,
 JD Vance to the group
 while pretending to be other members of the group to the vice president.
 That [adversary in the middle](https://attack.mitre.org/techniques/T1557/)
-could faithfully rely to each party what the other parties say.
+could faithfully relay to each party what the other parties say.
 That way, nobody would be able to detect during the conversation that
 anything was amiss.
 
@@ -110,12 +110,16 @@ the other participants were.
 There is very good reason to believe that the systems and procedures that people
 were supposed to use (instead of Signal) do enforce some mechanism of that verification.
 The participants don't need to know how to do all of that stuff if they use the right systems.
-But if they go it on their own by setting up their own chats, then they do need to understand these things to do things securely.
+But if they go it on their own by setting up their own chats
+then they do need to understand these things to do things securely.
 
 ### Who's there?
 
-Another thing we expect of the security of such discussions is to make sure that lurkers have to identify themselves.
-When you have conversion that nature, it is important to know who you are speaking in front of, even if some of those people will be silent.
+Another thing we expect of the security of such discussions is to
+make sure that lurkers have to identify themselves.
+When you have conversion that nature,
+it is important to know who you are speaking in front of,
+even if some of those people will be silent.
 
 In the [transcript] we see that many of the people who participated in the chat
 announced their presence.
@@ -127,11 +131,20 @@ everyone is announced, but I have no specific knowledge of how that is handled
 using the proper procedures.
 I am, however, highly confident that there is such a system.
 
-What I sense from the self-introductions in the transcripts is that participants learned how to introduce themselves for such discussion, perhaps through experience or training with the proper systems.
-But they did recognize that there is another half to the system that enforces introductions.
+What I sense from the self-introductions in the transcripts
+is that participants learned how to introduce themselves for such discussion,
+perhaps through experience or training with the proper systems.
+But they did not recognize that there is another half to the system
+that enforces introductions.
+
 Again, that is fine.
-Not everyone needs to understand that such are present in the proper
-systems.
+Not everyone needs to understand
+that such safeguards are built into the proper systems.
+Except that it isn't fine if you choose to ditch
+the system run and developed by professionals
+and opt to do things on your own.
+Then you really do need to understand all of this and much more.
+
 
 ### Where are you?
 
@@ -145,6 +158,12 @@ Signal itself has no ability to provide that kind of security.
 It's design and implementation might be flawless,
 but its security is only one component of an entire system.
 
+{{< figure
+  src="./not-a-scif.jpg"
+  alt="Document boxes in Mar-a-Lago bathroom"
+  caption="This is probably not a SCIF"
+  class="floatleft"
+>}}
 The solution to addressing those sorts of very real threats to communication
 at the levels of concern is for each participants to use a
 [Sensitive Compartmented Information Facility ({{< abbr "SCIF" >}})](https://en.wikipedia.org/wiki/Sensitive_compartmented_information_facility).
@@ -181,6 +200,8 @@ has recently said in a [FOX News interview](https://www.foxnews.com/video/637055
 that JMG's contact information was "sucked in" through another contact.
 If that were actually the truth, it would be a perfect example of why
 he shouldn't be using his own phone for managing such chat groups.
+And if he is spouting nonsense, it also illustrates why he shouldn't
+be the person maintaining the security of the device he is using.
 
 ## Who's to blame?
 
