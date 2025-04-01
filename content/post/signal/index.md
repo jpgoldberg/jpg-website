@@ -78,6 +78,10 @@ That [adversary in the middle](https://attack.mitre.org/techniques/T1557/)
 could faithfully relay to each party what the other parties say.
 That way, nobody would be able to detect during the conversation that
 anything was amiss.
+If this style of attack seems unrealistic to you
+I'd like to point out that Iran, the Houthis' major backer,
+successfully ran an
+[adversary in the middle against Gmail in 2011](https://blog.1password.com/who-do-you-trust-to-tell-you-who-to-trust/).
 
 {{< figure
   src="./signal-safety-number.png"
@@ -148,15 +152,17 @@ Then you really do need to understand all of this and much more.
 
 ### Where are you?
 
-Is the site each participant using secure from monitoring?
-Are there windows enemies can look through?
-Can adversaries listen to you type on your keyboard?
-Is everything shielded from electro-magnetic monitoring?
-Can enemies monitor through planted or compromised devices in that environment?
+- Is the site each participant using secure from monitoring?
+- Are there windows enemies can look through?
+- Can adversaries listen to you type on your keyboard?
+- Is everything shielded from electro-magnetic monitoring?
+- Can enemies monitor through planted or compromised devices in that environment?
 
 Signal itself has no ability to provide that kind of security.
-It's design and implementation might be flawless,
-but its security is only one component of an entire system.
+Even if its design and implementation were flawless,
+it cannot defend against attacks on the end points.
+Sometimes the cryptography is the strongest part of a defensive system,
+and attackers don't generally go after the strongest part of a defense.
 
 {{< figure
   src="./not-a-scif.jpg"
@@ -186,7 +192,7 @@ to the participants whether they knew it or not.
 
 ### What are you using?
 
-Is the device you are using compromised?
+- Is the device you are using compromised?
 
 Again this is the kind of things that would be handled by using the equipment within
 the {{<abbr "SCIF" >}}.
@@ -207,11 +213,14 @@ be the person maintaining the security of the device he is using.
 
 It would be easy to pin the blame for this on Mike Waltz who somehow added
 JMG to the chat group.
-But however he managed to do that, it is the kind of mistake that can be made
-using such systems.
+But however he managed to do that,
+it is the kind of mistake that can easily be made when setting up a group chat.
 Signal does what it can within its limited power
 to help people avoid making such mistakes,
 but its power to do so is limited.
+All participants are listed in a Signal group chat,
+but it is up to users to go through that list.
+Signal does not force participants to verify other participants.
 
 As Steven Bellovin [wrote][SMBTurtles]
 
@@ -257,4 +266,4 @@ but I would know better than to simply jettison everything I don't understand.
 
 [transcript]: https://www.theatlantic.com/politics/archive/2025/03/signal-group-chat-attack-plans-hegseth-goldberg/682176/ 
 
-[^allow]: This is very much one of those “those who know don't say, and those who say don't know” situations. The precise rules about allowing exceptions should be kept secret so that an adversary will have a more difficult time trying to trigger those situations. I, as you see, am happy to speculate about this because I am among those who don't know.
+[^allow]: The details a policy for making such allowances is very much one of those “those who know don't say, and those who say don't know” things. The precise rules about allowing exceptions should be kept secret so that an adversary will have a more difficult time trying to trigger those situations.
