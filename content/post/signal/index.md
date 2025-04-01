@@ -28,8 +28,8 @@ image:
 projects: []
 ---
 
-As is now widely known and reported Jeffrey Mark Goldberg (henceforth JMG),
-editor of the Atlantic,
+As is now widely known and reported Jeffrey Mark Goldberg (not me),
+editor of [the Atlantic](https://www.theatlantic.com),
 was included on March 23, 2025
 in a discussion of an impending strike on Houthi terrorists in Yemen.
 The active participants included
@@ -39,6 +39,10 @@ Director of National Intelligence Tulsi Gabbard,
 Secretary of State Mark Rubio
 among others, including the organizer Michael Waltz.
 This was done in a chat group using [Signal].
+I will be referring to that Jeffrey Goldberg as JMG throughout the remainder
+of this article.[^middlename]
+
+[^middlename]: It seems that neither of us are particularly keen to use our middle names or initials, but I started using my middle initial, P, some years back specifically to help avoid this kind of confusion.
 
 The administration and participants are now trying to claim that no secrets pertaining to
 US national security were included in that discussion, which included detailed plans
@@ -51,9 +55,10 @@ I naturally made a
 about this as the news broke.
 In the discussion that followed I found myself attempting to explain
 just how bad a screwup I thought it to be and what it says about the security
+practices of those responsible for safeguarding the United States.
 Some of what I say overlaps with what
-[Steve Bellovin](https://www.cs.columbia.edu/~smb/bio.html) wrote
-about in [Security Turtles All the Way Down](https://www.cs.columbia.edu/~smb/blog/2025-03/2025-03-24.html).
+[Steven Bellovin](https://www.cs.columbia.edu/~smb/bio.html) wrote
+about in [Security Turtles All the Way Down][SMBTurtles].
 
 ## On Signal
 
@@ -74,6 +79,13 @@ could faithfully rely to each party what the other parties say.
 That way, nobody would be able to detect during the conversation that
 anything was amiss.
 
+{{< figure
+  src="./signal-safety-number.png"
+  alt="Verify Safety Number example"
+  link="https://signal.org/blog/safety-number-updates/"
+  caption="Signal's Verify Safety Number screen, which is to be used for out of band verification."
+  class="floatright"
+>}}
 With Signal there are (annoying) protocols that people can go through
 to [verify other parties](https://support.signal.org/hc/en-us/articles/360007060632-What-is-a-safety-number-and-why-do-I-see-that-it-changed).
 Performing that verification is options, and last I heard only a tiny portion
@@ -157,10 +169,10 @@ to the participants whether they knew it or not.
 
 Is the device you are using compromised?
 
-Again, this is the kind of things that would be handled by using the equipment within
+Again this is the kind of things that would be handled by using the equipment within
 the {{<abbr "SCIF" >}}.
 Instead, participants used their own phones for which they they control
-and therefore they are responsible for securing.
+and are therefore responsible for securing.
 
 Mike Waltz, who is now desperately trying to say pretend
 that he never had any contact with
@@ -180,6 +192,10 @@ Signal does what it can within its limited power
 to help people avoid making such mistakes,
 but its power to do so is limited.
 
+As Steven Bellovin [wrote][SMBTurtles]
+
+> Adding a journalist to the group was the least of the problems and might have resulted from someone mistapping a name on a list (though “Jeffrey Goldberg” is not a rare name; I know someone else of that name) — but on a secure chat system, the wrong one probably wouldn’t have been listed at all.
+
 There was a choice to not use the established procedures for
 such highly sensitive discussions among the leaders of US national security.
 
@@ -196,12 +212,27 @@ Had they not by-passed the procedures
 - Each participant would have used specific government equipment, which JMG did not have access to.
 - JMG's contact information could not be “sucked into” any of those devices.
 
+### Born of a malicious contempt for expertise
+
 What we see is a combination of “the rules don't apply to me” thinking along with
 a malicious disregard for the experts and trained professionals who have developed
 and manage the systems that the participants chose to by-pass.
 The “deep state” is exactly what would have prevented this.
 
+I am not claiming that I could set up and operate
+the kinds of systems and protocols needed to secure
+the kinds of planning and discussion that
+took place in that chat by those participants.
+I certainly think that I know better than those who participated in that chat,
+and that means I would know to defer to the expertise and experience
+of those who operate in a system that has been developed and refined over decades.
+I might not understand or enjoy all of the operational aspects and contraints
+of such a system,
+but I would know better than to simply jettison everything I don't understand.
+
 [Signal]: https://signal.org/ "Signal messaging system"
+
+[SMBTurtles]: https://www.cs.columbia.edu/~smb/blog/2025-03/2025-03-24.html "Steven Bellovin: Security turtles"
 
 [transcript]: https://www.theatlantic.com/politics/archive/2025/03/signal-group-chat-attack-plans-hegseth-goldberg/682176/ 
 
