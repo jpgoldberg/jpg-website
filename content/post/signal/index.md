@@ -16,7 +16,7 @@ draft: true
 # To use, add an image named `featured.jpg/png` to your page's folder.
 # Focal points: Smart, Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight.
 image:
-  caption: "Signal profile for me, Jeffrey _Paul_ Goldberg, not to be confused with a different Jeffrey Goldberg ="
+  caption: "Signal profile for me, Jeffrey _Paul_ Goldberg, not to be confused with a different Jeffrey Goldberg"
   focal_point: ""
   preview_only: false
 
@@ -39,6 +39,12 @@ Director of National Intelligence Tulsi Gabbard,
 Secretary of State Mark Rubio
 among others, including the organizer Michael Waltz.
 This was done in a chat group using [Signal].
+
+The administration and participants are now trying to claim that no secrets pertaining to
+US national security were included in that discussion, which included detailed plans
+before the attack took place.
+You should read the [transcript] of the chat and judge for yourself how sensitive
+this information was at the time.
 
 I naturally made a
 [snarky Facebook posts](https://www.facebook.com/jeffrey.goldberg/posts/pfbid02CtenwwdBZzB8EZUaSSLXvh2TE8xjUxH2dZmxbvaEZ7c6LScVq7s6skkHzmC1GjSMl)
@@ -94,13 +100,12 @@ were supposed to use (instead of Signal) do enforce some mechanism of that verif
 The participants don't need to know how to do all of that stuff if they use the right systems.
 But if they go it on their own by setting up their own chats, then they do need to understand these things to do things securely.
 
-### Who's lurking
+### Who's there?
 
 Another thing we expect of the security of such discussions is to make sure that lurkers have to identify themselves.
 When you have conversion that nature, it is important to know who you are speaking in front of, even if some of those people will be silent.
 
-In the [transcript](https://www.theatlantic.com/politics/archive/2025/03/signal-group-chat-attack-plans-hegseth-goldberg/682176/)
-we see that many of the people who participated in the chat
+In the [transcript] we see that many of the people who participated in the chat
 announced their presence.
 But announcing your presence doesn't solve the problem
 unless there is some mechanism or protocol that will enforce that everyone does.
@@ -114,19 +119,90 @@ What I sense from the self-introductions in the transcripts is that participants
 But they did recognize that there is another half to the system that enforces introductions.
 Again, that is fine.
 Not everyone needs to understand that such are present in the proper
-systems. 
+systems.
 
-you see that many people joining did identify themselves as they joined. But there needs to be a procedure to make sure that everyone knows about everyone. Signal does list the participants, but it takes addition, typically human, procedures to make sure that everyone knows who they are talking to.
-OpSec of settings. Is the site each participant using secure from monitoring? Are there windows enemies can look through. Can they listen to you type on your keyboard? Is everything shielded from EM monitoring? Can enemies do any of that through planted or compromised devices in that environment. SCIFs are the general solution to that, but it does not appear that anyone tried to verify or even ask if everyone was in a SCIF.
-So Signal might be sufficiently secure for the part of the communication that is its responsibility, but it is just wrong to use it the way it appears to have been used for such a discussion.
+### Where are you?
 
-## Final cause
+Is the site each participant using secure from monitoring?
+Are there windows enemies can look through?
+Can adversaries listen to you type on your keyboard?
+Is everything shielded from electro-magnetic monitoring?
+Can enemies monitor through planted or compromised devices in that environment?
 
-There was a choice to not use the established procedures for such highly sensitive
-discussions among the leaders of US national security.
+Signal itself has no ability to provide that kind of security.
+It's design and implementation might be flawless,
+but its security is only one component of an entire system.
 
-That is far more important then the fact that they made they subsequently made a mistake the secure system is designed to avoid. 
+The solution to addressing those sorts of very real threats to communication
+at the levels of concern is for each participants to use a
+[Sensitive Compartmented Information Facility ({{< abbr "SCIF" >}})](https://en.wikipedia.org/wiki/Sensitive_compartmented_information_facility).
+Cabinet secretaries for departments that deal with issues of national security will have these installed at their homes.
 
+I expect that some allowances[^allow] are made for when
+it is not possible for all necessary participants to get to a {{< abbr "SCIF" >}}
+for a conversation that cannot be delayed.
+But I very strongly expect that such allowances need to be logged
+and that each participant is informed that not everyone is is a secure location
+for such a conversation.
 
+It is clear from the transcripts that nobody made any attempt to ascertain if others
+were in a secure location for such a conversation.
+Nor did anyone volunteer such information about themselves.
+Normally that wouldn't be the responsibility of the participants,
+but as they were doing this on their own instead of through established procedures
+in which a security officer of some sort would handle that, the responsibility fell
+to the participants whether they knew it or not.
+
+### What are you using?
+
+Is the device you are using compromised?
+
+Again, this is the kind of things that would be handled by using the equipment within
+the {{<abbr "SCIF" >}}.
+Instead, participants used their own phones for which they they control
+and therefore they are responsible for securing.
+
+Mike Waltz, who is now desperately trying to say pretend
+that he never had any contact with
+{{< abbr "JMG" "Jeffrey Mark Goldberg" >}},
+has recently said in a [FOX News interview](https://www.foxnews.com/video/6370555739112)
+that JMG's contact information was "sucked in" through another contact.
+If that were actually the truth, it would be a perfect example of why
+he shouldn't be using his own phone for managing such chat groups.
+
+## Who's to blame?
+
+It would be easy to pin the blame for this on Mike Waltz who somehow added
+JMG to the chat group.
+But however he managed to do that, it is the kind of mistake that can be made
+using such systems.
+Signal does what it can within its limited power
+to help people avoid making such mistakes,
+but its power to do so is limited.
+
+There was a choice to not use the established procedures for
+such highly sensitive discussions among the leaders of US national security.
+
+Each and every participant who agreed to or choose to by-pass
+the established standard procedures for such discussions is to blame.
+And their individual responsibility is not diluted by the fact that their colleagues
+are also responsible.
+
+Had they not by-passed the procedures
+
+- Each participant to the discussion, including the silent ones, would have been fully identified to the system along with their security clearances. JMG would have been identified as not belonging at that point.
+  
+- All participants would have been made aware of everyone who could see the conversation. This would have also shown JMG didn't belong.
+- Each participant would have used specific government equipment, which JMG did not have access to.
+- JMG's contact information could not be “sucked into” any of those devices.
+
+What we see is a combination of “the rules don't apply to me” thinking along with
+a malicious disregard for the experts and trained professionals who have developed
+and manage the systems that the participants chose to by-pass.
+The “deep state” is exactly what would have prevented this.
 
 [Signal]: https://signal.org/ "Signal messaging system"
+
+[transcript]: https://www.theatlantic.com/politics/archive/2025/03/signal-group-chat-attack-plans-hegseth-goldberg/682176/ 
+
+[^allow]: This is very much one of those “those who know don't say, and those who say don't know” situations. The precise rules about allowing exceptions should be kept secret so that an adversary will have a more difficult time trying to trigger those situations. I, as you see, am happy to speculate about this because I am among those who don't know.
