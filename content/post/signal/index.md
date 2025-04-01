@@ -16,7 +16,7 @@ draft: false
 # To use, add an image named `featured.jpg/png` to your page's folder.
 # Focal points: Smart, Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight.
 image:
-  caption: "Signal profile for me, Jeffrey _Paul_ Goldberg, not to be confused with a different Jeffrey Goldberg"
+  caption: "Signal profile for me, Jeffrey _Paul_ Goldberg, not to be confused with a different Jeffrey Goldberg. It does not contain a proof of my identity nor does it contain an indication security clearances."
   focal_point: ""
   preview_only: false
 

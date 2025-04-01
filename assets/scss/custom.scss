@@ -4,6 +4,13 @@ abbr[title], abbr[data-original-title] {
   text-decoration-skip-ink: revert;
 }
 
+figure {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	margin-left: 0.5rem;
+	margin-right: 0.5rem;
+}
+
 figure.floatright {
 	max-width: 30%;
 	height: auto;
