@@ -227,7 +227,6 @@ And attempting to enforce such things in Python leads to deeply messy and un-pyt
 and those attempts don't really work anyway.
 That did not stop me from trying when I first started using Python.
 
-
 But that doesn’t mean
 that there aren’t Pythonic ways reduce the changes of bugs involving unexpected data mutation.  One such mechanism, in conjunction with type annotations, is to limit mutation of function parameters to functions that return None.
 
