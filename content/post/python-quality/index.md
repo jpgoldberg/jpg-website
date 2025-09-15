@@ -4,6 +4,7 @@
 title: "Evaluating Python code"
 subtitle: "An answer to the question “How do you evaluate the quality of [a] Python package?”"
 summary: "Don't use a check list for evaluating code quality, but there are still things I look at. Some of them are things that many people who only know Python may struggle with."
+highlight: true
 authors: []
 tags: []
 categories: []
