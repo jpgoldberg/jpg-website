@@ -53,6 +53,8 @@ markup:
   PygmentsCodeFences: true
   PygmentsStyle: "vs"
   _merge: deep
+  highlight:
+    style: "tango"
 
 related:
   threshold: 80

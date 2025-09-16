@@ -16,10 +16,6 @@
   {{- end }}
   {{- if transform.CanHighlight .Type }}
   <pre tabindex="0" class="chroma"><code class="language-{{ .Type }}" data-lang="{{ .Type }}">
-    {{- $syntaxCSS := resources.Get "syntax/main.css" | minify -}}
-        <style>
-	        {{ $syntaxCSS.Content | safeCSS }}
-        </style>
       {{- with transform.HighlightCodeBlock . -}}
       {{ .Inner }}
       {{- end -}}
