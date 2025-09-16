@@ -35,30 +35,49 @@ which offered an initial check list of things to look for to evaluate the qualit
 of a Python project and solicited additional items.
 The response that I started to draft grew in length and complexity,
 and so I am posting that here instead.
-Like most who responded, I am treating the question about how one evaluates the
-quality of Python projects in general instead of as about evaluating ones own
-projects.
+
+In many sections I have gone well beyond answering how I evaluate into why I feel
+that the things I look for are important.
+In particular I try to communicate some of the importance of a
+[trio of good practices](#sec-trinity) that Python doesn't teach.
+This involves concepts of good software design that individuals who only learn Python
+might be totally unaware of.
+
+{{< toc >}}
 
 ## Don’t use check lists to evaluate
 
-There definitely are things that I will notice or notice missing that will inform my judgement
-of the quality of some Python project, but it is mistake to think in terms of checklists.
-Some times there are good reasons why some project is lacking something
+The original question was presented in a way that could lead people to think in terms
+of check lists of features and tools.
+Despite the fact that there are things that I will notice (or notice missing)
+that will inform my judgement of the quality of some Python project,
+it is a mistake to largely think in terms of check lists.
+Sometimes there are good reasons why some project is lacking something
 I might generally expect of a high quality project,
 and there are times when the things I like to see are present but are done poorly.
 
-The biggest problem with establishing checklists isn’t for the person evaluating the code.
-The problem is for the novice programmer attempting to satisfying check lists
-without a good understanding of what they are about.
-If they take on too much at one time,
-it will take away from what they really need to be focusing on in that stage of the learning,
-it will be extremely frustrating for them, and it will lead to terrible code.
+The biggest problem with establishing check lists isn’t for the person evaluating the code.
+The problem with check lists is for the novice programmer attempting to check all the boxes
+without good understanding of what they are about.
+If the novice developer goes down that path, they are likely to
 
-So if you are a novice programmer reading this and wish to improve your code,
-take this as an opportunity to start learning more about a topic I raise instead
-of as a list of things you need to do in your project at this time.
+- take on too much at one time;
+- miss what they should be focusing on in their particular stage of their learning;
+- find themselves extremely frustrated in their attempt;
+- and quite possibly end up producing worse code than if they hadn't tried to satisfy such a list.
 
-## Don't insist on all the newest and shiniest tools
+Another important thing for anyone using this or any other similar list of better practices
+to improve their code is that pretty much everything I discuss can be done partially.
+These are not all-or-nothing practices.
+Doing a bit of testing is better than doing no testing.
+Doing more testing is better than doing just a bit of testing.
+That isn't just true of testing. It is to varying degrees of everything
+I mention.
+If you are are reading this to help you improve your own
+projects,
+then focus on the word “improve”.
+
+### Don't insist on all the newest and shiniest tools {#sec-shiny}
 
 The original question listed use of some relatively new shiny tools,
 many of which I strongly recommend.
@@ -69,9 +88,9 @@ While I have my preferences regarding
 or [pytest](https://docs.pytest.org/en/stable/),
 which tool developers use is often driven by mere accidents of which tool they got up and running first.
 
-## A developer must understand their own code
+## Understand your own code {#sec-bad-vibes}
 
-{{< quote source="Martin Fowlder (1999)" >}}
+{{< quote source="Fowler et al. (1999)" >}}
 Any fool can write code that a computer can understand.
 Good programmers write code that humans can understand.
 {{< /quote >}}
@@ -82,15 +101,22 @@ And so I will say little more about this here beyond stating
 that I don't care what tools someone used to develop their software
 as long as the code itself is understandable and understood by the developer.
 
-## Think about how things can go wrong
+## Test {#sec-test}
 
-Tests are essential,
-but too often people only test that their functions and methods work in the normal case.
+Testing is essential, but see more about this in the [next section](#sec-defensively).
+
+## Code defensively {#sec-defensively}
+
+Defensive coding is thinking about and preparing for ways that things can go wrong,
+and this has implications for, among other things, the kinds of tests you write.
+
+Too often people only test that their functions and methods work in the normal case.
 I am certainly guilty of this because during development
 I write a test just to see that I have the thing basically working
 and tell myself that I will flesh out the tests later.
-But, hypocrite that I am, whatI really like to see
-is unhappy path unit testing. Proper tests check what happens with edge cases and with unusual inputs.
+But, hypocrite that I am,
+what I really like to see is unhappy path unit testing.
+Proper tests check what happens with edge cases and with unusual inputs.
 
 Suppose we have a function that expects a probability as an argument.
 What happens when it is passed a value that is not between 0 and 1?
@@ -101,7 +127,7 @@ and certainly test when the input values clearly don't meet expectations.
 Or more simply, let's look at the typical
 first introduction to recursion function that people may encounter.
 
-```python { title="Things go bad when we are negative" verbatim=false style=vim }
+```python { title="Things go bad when we are negative" verbatim=false }
 def factorial(n: int) -> int:
   if n == 0:
     return 1
@@ -111,16 +137,46 @@ def factorial(n: int) -> int:
 What happens if you try `factorial(-5)`?
 (You get a [`RecursionError`](https://docs.python.org/3/library/exceptions.html#RecursionError), that's what.)
 
-Both the probability and factorial examples can be addressed by
+Both the probability and factorial examples are typically addressed by
 checking the value passed to the function
 and raising
 a [`ValueError`](https://docs.python.org/3/library/exceptions.html#ValueError)
 if it is not sensible input.
-But that is a design decision and whatever behavior you want should be tested.
+But that isn't the only design choice.
+What is important that anyone (including yourself at some point in the future)
+know what to expect.
 
-Testing for such things gets you in the habit of building your functions defensively in the first place.
+If you develop the habit of testing with peculiar inputs, you will find yourself
+writing better thought out functions in the first place.
 
-## Documentation
+### Run time type checking? {#sec-isinstance}
+
+When I first started using Python a few years ago, I used run-time enforcement
+of the types of arguments passed to a function.
+That is my hypothetical factorial function might look something like
+
+```python { title="factorial with run time type enforcement" verbatim=false hl_lines = "2-3" }
+def factorial(n: int) -> int:
+  if not isinstance(n, int):
+    raise TypeError("n must be an integer")
+  if < 0:
+    raise ValueError("n can't be negative")
+  if n == 0:
+    return 1
+  return n * factorial(n - 1)
+```
+
+I no longer do that.
+My increased understanding and grudging acceptance of Python type system
+along with the substantial improvements in support type type hinting
+has led me to prefer static type checking to help me use
+the [logic of types](#sec-types).
+There are varying and often strongly held opinions about heavy use of run time type checking in Python.
+Indeed, my opinion has varied over time,
+and I do not wish to try to persuade anyone of my current view.
+I am merely stating it.
+
+## Documentation {#sec-docs}
 
 At the very least every (public) function and method should have useful docstrings.
 This not only makes those available through `help` but they are often displayed in IDEs.
@@ -150,7 +206,7 @@ Ideally the code should be consistent in its use and style of docstrings, but mi
 
 I can’t blame anyone for not wanting to use Sphinx to generate documentation in various formats. It is definitely not something a novice programmer should have to worry about. But more mature projects by mature developers, I would expect some complete documentation.
 
-## Three things Python doesn't teach
+## Three things Python doesn't teach {#sec-trinity}
 
 This is where I am going to say things that may irritate some Python advocates.
 That is ok, I will also say things in this section that will irritate some of its
@@ -169,13 +225,21 @@ as well as produce cleaner, more maintainable, and more readable code.
 
 These practices will help the developer reason more clearly about their own code.
 
-### Use the logic of types
+### The logic of types {#sec-types}
 
 Type annotations (also called “type hints”) are a must.
 This, along with writing unit tests, is what I would consider the top priorities.
 I recognize that the ability to do this well is relatively recent,
 but at this writing (September 2025) Python 3.9 has only a month to live,
 so one can start by using what is available for Python 3.10.
+
+{{% callout note %}}
+I will not be discussing how to run type checkers here,
+as this is already getting too long.
+My focus is to give people unfamiliar with it an idea of what it does for you.
+The good news is that for use IDE's it is easily available within popular Python extensions.
+{{% /callout %}}
+
 
 The single greatest gain from type annotations is that they serve as important documentation for functions and methods.
 They tell the people using your functions
@@ -185,41 +249,74 @@ They code hand-in-hand with docstrings.
 Consider two function signatures
 
 ```python { title="Two functions" verbatim=false }
-def func1(x: str) -> int: ...
-
-def func2(x: int) -> float: ...
+def f1(x: str) -> int: ...
+def f2(x: int) -> float: ...
 ```
 
 Using the type hints immediately tells you what kind of input and output you should use and expect
 from these functions.
 
-It also tells you how you can combine those functions functions.
+
+```python { title = "A type checking example" hl_lines = "6" }
+def f1(x: str) -> int: ...
+def f2(x: int) -> float: ...
+text = "abc"
+a = f1(text)  # Type checker infers that “a” is an int
+b: float = f2(a)  # Type checker is happy here
+c: str = f2(a)  # Type checker will report an error
+```
+
+Passing an argument of an unexpected type can lead to hard to debug errors
+depending on things that may be deep inside the called function
+(including things that that function calls.
+But using type annotations and a type checker saves you and your users
+from many of those sorts of bugs.
+
+```python { title = "Catching bugs early" hl_lines = "2" }
+b = f2("abc")
+d = f1(b)  # Type checker will report an error, as b us a float
+```
+
+In the example above, we have one intermediate variable, `b`
+and everything happens to be set close to each other,
+which makes it relatively easier for the human developer avoid this
+kind of error without the help of a type checker.
+But this is also a compact example.
+When variables are set in distant parts of code and functions
+defined in separate modules, you won't have the luxury of seeing
+everything defined within the space of a few lines.
+
+The example also starts to illustrate how the type system use useful for
+combining (composing) functions.
 Those who studied some physics in high school or beyond
-will have learned “dimensional analysis” as a way to help you
+will have learned something akin to
+[dimensional analysis](https://en.wikipedia.org/wiki/Dimensional_analysis)
+as a way to help you
 avoid error and see what should be applied to what by keeping track of the units.
 Good type annotations and checking do the same thing for
 you when coding and for others using what you have produced.
 
-So let's look at this with respect to what we know about `func1()` and `func2()` declared above.
+If you have provided proper type annotations and use type checking
+you can have some confidence that the following is properly constructed
+if the type checker is happy with it.
 
+```python { title="Type checking function composition" }
+(numerator, denominator) = f2(f1("abc")).as_integer_ratio()
 
-```python { title = "A few type checker warnings" hl_lines = "4 10" }
-text = "abc"
-a = func1(text)  # Type checker will know that “a” is an int
-b: float = func2(a)  # This is correct
-c: str = func2(a)  # Type checker will report an error
-
-d = func2(5)  # Type checker knows that d is a float
-
-# This might result in a hard to debug run time error
-# depending on what funct1 does internally
-e = func1(d)  # Type checker will report error
+# Or build a function from that
+def f3(text: str) -> str:
+    n, d = f2(f1(text)).as_integer_ratio()
+    return f"{n}/{d}"
 ```
 
-It's worth noting that in many other languages, type information helps the compiler produce
+{{% callout note %}}
+In many other languages, type consistency is enforced by the compiler
+and the compiler uses that information to produce
 more efficient and safer binaries.
 Even though Python does not do this, using type annotations and
-running a static type checker will help you catch potential and subtle bugs early.
+running a static type checker will help the developer
+catch and prevent potential and subtle bugs early.
+{{% /callout %}}
 
 ### Mindfulness about mutability
 
@@ -228,17 +325,23 @@ And attempting to enforce such things in Python leads to deeply messy and un-pyt
 and those attempts don't really work anyway.
 That did not stop me from trying when I first started using Python.
 
-But that doesn’t mean
-that there aren’t Pythonic ways reduce the changes of bugs involving unexpected data mutation.  One such mechanism, in conjunction with type annotations, is to limit mutation of function parameters to functions that return None.
+But that doesn’t mean that there aren’t Pythonic ways reduce the chances
+of bugs involving unexpected data mutation.
+One such mechanism, in conjunction with type annotations,
+is to limit mutation of function parameters to functions that return None.
 
-Clearly documenting which arguments might be changed by the activity of a function is important. And this, too, can be done with type annotations. If a function parameter is listed as, say, type dict, the user calling it doesn’t know if the dict they pass to a function will change the dict. But if it is annotated as Mapping, the user (and the type checker) know that the function should not be changing the contents f the dict. While the type in the functions parameters call it a MutableMapping that tells the user that the dictionary they pass is likely to be modified as a consequence of being passed to the function. 
+Clearly documenting which arguments might be changed by the activity of a function is important.
+And this, too, can be done with type annotations.
+If a function parameter is listed as, say, type `dict`,
+the user calling that function doesn’t know if the dict they pass to a function will change the dict.
+But if it is annotated as `Mapping`,
+the user (and the type checker) know that the function is not expected changing the contents of the dict.
+If the type in the functions parameters call it a `MutableMapping`
+that tells the user that the dictionary they pass is expected to be modified
+as a consequence of being passed to the function.
 
-### Respecting privacy
+### Respect for privacy {#sec-privacy}
 
-Every part of a Python object can be inspected or modified when the object is in scope. There are no truly private attributes. But we do have the conventions of naming things that should be treated as private with “_” as the leading character. 
+Every part of a Python object can be inspected or modified when the object is in scope. There are no truly private attributes. But we do have the conventions of naming things that should be treated as private with “_” as the leading character.
 
 In the class Point, users can change the value of x after the point is created. We might not want that.
-
-
-
-       
