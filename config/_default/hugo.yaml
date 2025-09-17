@@ -55,6 +55,11 @@ markup:
   _merge: deep
   highlight:
     style: "tango"
+  # override deprecated setting in theme
+  goldmark:
+    renderHooks:
+      link:
+        useEmbedded: "fallback"
 
 related:
   threshold: 80
