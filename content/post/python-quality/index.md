@@ -151,8 +151,11 @@ writing better thought out functions in the first place.
 
 ### Run time type checking? {#sec-isinstance}
 
-When I first started using Python a few years ago, I used run-time enforcement
-of the types of arguments passed to a function.
+When I first started using Python a few years ago,
+I made frequent use run-time enforcement of the types of arguments passed to a function.
+In particular I used [`isinstance`](https://docs.python.org/3/library/functions.html#isinstance),
+and raise a [`ValueError`](https://docs.python.org/3/library/exceptions.html#ValueError) if 
+the wrong type of argument is passed to a function.
 That is my hypothetical factorial function might look something like
 
 ```python { title="factorial with run time type enforcement" verbatim=false hl_lines = "2-3" }
@@ -171,7 +174,8 @@ My increased understanding and grudging acceptance of Python type system
 along with the substantial improvements in support type type hinting
 has led me to prefer static type checking to help me use
 the [logic of types](#sec-types).
-There are varying and often strongly held opinions about heavy use of run time type checking in Python.
+There are varying, and often strongly held,
+opinions about heavy use of run time type checking in Python.
 Indeed, my opinion has varied over time,
 and I do not wish to try to persuade anyone of my current view.
 I am merely stating it.
@@ -209,7 +213,8 @@ I can’t blame anyone for not wanting to use Sphinx to generate documentation i
 ## Three things Python doesn't teach {#sec-trinity}
 
 This is where I am going to say things that may irritate some Python advocates.
-That is ok, I will also say things in this section that will irritate some of its
+That is ok,
+I will also say things in this section that will also irritate some of Python's
 fiercest critics.
 
 Python is a fine choice as first language to learn for many of the reasons people say,
@@ -240,11 +245,11 @@ My focus is to give people unfamiliar with it an idea of what it does for you.
 The good news is that for use IDE's it is easily available within popular Python extensions.
 {{% /callout %}}
 
-
-The single greatest gain from type annotations is that they serve as important documentation for functions and methods.
-They tell the people using your functions
-what data types/classes your function expects its arguments to be and the type of the data returned.
-They code hand-in-hand with docstrings.
+The most immediate gain from type annotations is that
+they serve as important documentation for functions and methods.
+They tell the people using your functions what data types/classes your function
+expects its arguments to be and the type of the data returned.
+They work hand-in-hand with docstrings in this respect.
 
 Consider two function signatures
 
