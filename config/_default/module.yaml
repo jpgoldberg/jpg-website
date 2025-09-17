@@ -4,6 +4,9 @@
 ## Docs: https://gohugo.io/hugo-modules/
 ############################
 
+hugoVersion:
+  extended: true
+
 imports:
   - path: github.com/HugoBlox/hugo-blox-builder/modules/blox-plugin-reveal
   - path: github.com/HugoBlox/hugo-blox-builder/modules/blox-bootstrap/
