@@ -5,15 +5,6 @@
 {{- $isVerbatim = .Attributes.verbatim -}}
 {{- end -}}
 <figure class="highlight">
-  {{- with .Attributes.title }}
-  <figcaption>
-    {{- if $isVerbatim -}}
-    <span>{{ . }}</span> {{/* As a file name */}}
-    {{- else -}}
-    <span>{{ . | markdownify }}</span> {{/* As a code description */}}
-    {{- end -}}
-  </figcaption>
-  {{- end }}
   {{- if transform.CanHighlight .Type }}
   <pre tabindex="0" class="chroma"><code class="language-{{ .Type }}" data-lang="{{ .Type }}">
       {{- with transform.HighlightCodeBlock . -}}
@@ -22,5 +13,14 @@
     </code></pre>
   {{- else }}
   <pre tabindex="0"><code class="language-{{ .Type }}" data-lang="{{ .Type }}">{{ .Inner }}</code></pre>
+  {{- end }}
+  {{- with .Attributes.title }}
+  <figcaption>
+    {{- if $isVerbatim -}}
+    <span>{{ . }}</span> {{/* As a file name */}}
+    {{- else -}}
+    <span>{{ . | markdownify }}</span> {{/* As a code description */}}
+    {{- end -}}
+  </figcaption>
   {{- end }}
 </figure>

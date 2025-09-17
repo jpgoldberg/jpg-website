@@ -182,31 +182,15 @@ I am merely stating it.
 
 ## Documentation {#sec-docs}
 
-At the very least every (public) function and method should have useful docstrings.
-This not only makes those available through `help` but they are often displayed in IDEs.
+[DataCamp](https://www.datacamp.com/) has a nice
+[tutorial on Python docstrings](https://www.datacamp.com/tutorial/docstrings-python)
+that does a better job than I could at explaining what these are and why they are useful.
 
-Here is an example of
-[one of mine](https://jpgoldberg.github.io/toy-crypto-math/modules/utils.html#toy_crypto.utils.digit_count),
-
-```python { title="Function definition with docstring" }
-def digit_count(n: int, base: int = 10) -> int:
-    """returns the number of digits (base b) of integer n.
-
-    :raises ValueError: if base < 1
-    """
-    if base < 1:
-        raise ValueError("base must be at least 1")
-    ... # rest of code snipped
-```
-
-{{< figure
-  src="vscode-docstring-reveal.png"
-  title="Docstring popup"
-  caption="Docstring popup when hovered over `utils.digit_count`"
-  height=200px
->}}
-
-Ideally the code should be consistent in its use and style of docstrings, but missing docstrings leaves a bad smell.
+While I would expect a mature project by mature developers to have documentation
+that includes, but goes beyond, docstrings,
+I would not recommend that a novice Python developer spend too much time
+struggling with [Sphinx](https://www.sphinx-doc.org/en/master/index.html)
+when they could be learning other things.
 
 I can’t blame anyone for not wanting to use Sphinx to generate documentation in various formats. It is definitely not something a novice programmer should have to worry about. But more mature projects by mature developers, I would expect some complete documentation.
 
@@ -238,13 +222,6 @@ I recognize that the ability to do this well is relatively recent,
 but at this writing (September 2025) Python 3.9 has only a month to live,
 so one can start by using what is available for Python 3.10.
 
-{{% callout note %}}
-I will not be discussing how to run type checkers here,
-as this is already getting too long.
-My focus is to give people unfamiliar with it an idea of what it does for you.
-The good news is that for use IDE's it is easily available within popular Python extensions.
-{{% /callout %}}
-
 The most immediate gain from type annotations is that
 they serve as important documentation for functions and methods.
 They tell the people using your functions what data types/classes your function
@@ -260,7 +237,6 @@ def f2(x: int) -> float: ...
 
 Using the type hints immediately tells you what kind of input and output you should use and expect
 from these functions.
-
 
 ```python { title = "A type checking example" hl_lines = "6" }
 def f1(x: str) -> int: ...
@@ -322,6 +298,24 @@ Even though Python does not do this, using type annotations and
 running a static type checker will help the developer
 catch and prevent potential and subtle bugs early.
 {{% /callout %}}
+
+#### Some tools
+
+My goal has been to introduce the concept and benefits of static type checking in Python,
+instead writing a how-to guide,
+but here are a few things that might help some people to get started
+with at least the things that I happen to use.
+
+- [Getting started with mypy](https://mypy.readthedocs.io/en/stable/getting_started.html),
+  which in addition to providing a guide to installing and running the mypy static type checker contains
+  a brief introduction to adding type annotations to your code.
+- The [Pylance](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance)
+  Visual Studio Code extension is installed as part of Microsoft's excellent
+  [Python extension](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
+  for VSCode.
+
+Both of those can be configured with respect to how strict they are.
+And each recommends that you start out with not very strict settings.
 
 ### Mindfulness about mutability
 
