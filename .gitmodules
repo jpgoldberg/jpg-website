@@ -2,10 +2,10 @@
 	path = themes/hugo-cite
 	url = https://github.com/loup-brun/hugo-cite.git
 [submodule "themes/hugo-blox-builder"]
-	path = themes/github.com/HugoBlox/hugo-blox-builder
+	path = themes/HugoBlox/hugo-blox-builder
 	url = git@github.com:HugoBlox/hugo-blox-builder.git
 [submodule "themes/github.com/hugomods/shortcodes"]
-	path = themes/github.com/hugomods/shortcodes
+	path = themes/hugomods/shortcodes
 	url = git@github.com:hugomods/shortcodes.git
 [submodule "themes/github.com/HugoBlox/theme-academic-cv"]
 	path = themes/academic-cv
