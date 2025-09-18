@@ -9,7 +9,7 @@ hugoVersion:
 
 imports:
   - path: github.com/HugoBlox/hugo-blox-builder/modules/blox-plugin-reveal
-  - path: github.com/HugoBlox/hugo-blox-builder/modules/blox-bootstrap
+  - path: HugoBlox/hugo-blox-bootstrap/modules/blox-bootstrap
   - path: github.com/HugoBlox/hugo-blox-builder/modules/blox-plugin-netlify
   - path: github.com/HugoBlox/hugo-blox-builder/modules/blox-tailwind
   - path: hugomods/shortcodes
