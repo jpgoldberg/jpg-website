@@ -154,7 +154,7 @@ writing better thought out functions in the first place.
 When I first started using Python a few years ago,
 I made frequent use run-time enforcement of the types of arguments passed to a function.
 In particular I used [`isinstance`](https://docs.python.org/3/library/functions.html#isinstance),
-and raise a [`ValueError`](https://docs.python.org/3/library/exceptions.html#ValueError) if 
+and raise a [`ValueError`](https://docs.python.org/3/library/exceptions.html#ValueError) if
 the wrong type of argument is passed to a function.
 That is my hypothetical factorial function might look something like
 
@@ -319,25 +319,123 @@ And each recommends that you start out with not very strict settings.
 
 ### Mindfulness about mutability
 
+Everyone learning Python is taught something like the fact
+that the "`=`" in lines 2 and 8 behave differently.
+
+```python {hl_lines = "2 8", linenos = true }
+a = "abc"
+b = a  # Assignment copies the *value*
+b += "xyz"  
+print(b) # abcxyz
+print(a) # abc
+
+d = ['a', 'b', 'c']
+e = d  # Assignment copies the *reference*
+e.extend(['x', 'y', 'z']) 
+print(''.join(e)) # abcxyz
+print(''.join(d)) # abcxyz
+```
+
+Changing `e` changed `d`,
+and the term for something that is changable is "mutable".
+
+Although this lesson is taught, it is hard to build up the habit of
+remaining mindful of this.
+Failure to be mindful of the consequences of mutation can lead
+subtle and difficult to identify bugs.
+
 Python doesn’t offer (much less insist on) ways to say whether some object is mutable or not.
 And attempting to enforce such things in Python leads to deeply messy and un-pythonic code
 and those attempts don't really work anyway.
 That did not stop me from trying when I first started using Python.
 
-But that doesn’t mean that there aren’t Pythonic ways reduce the chances
-of bugs involving unexpected data mutation.
-One such mechanism, in conjunction with type annotations,
-is to limit mutation of function parameters to functions that return None.
+Programming languages differ in the degree and manner in which they force
+the programmer to be mindful of mutability.
+Python itself doesn't force you to think about it until you are deep in
+debugging something that has gone wrong.
 
-Clearly documenting which arguments might be changed by the activity of a function is important.
-And this, too, can be done with type annotations.
-If a function parameter is listed as, say, type `dict`,
-the user calling that function doesn’t know if the dict they pass to a function will change the dict.
-But if it is annotated as `Mapping`,
-the user (and the type checker) know that the function is not expected changing the contents of the dict.
-If the type in the functions parameters call it a `MutableMapping`
-that tells the user that the dictionary they pass is expected to be modified
-as a consequence of being passed to the function.
+Fortunately we can addres this with type annotations,
+but this time we need to use more abstract types (or classes),
+we we will import from `collections.abc`.
+`Sequence` is used for list-like things that are not expected to be
+mutated,
+while `MutableSequencer` is used for list-like things
+hat are expected to
+be mutated.
+
+```python {hl_lines = "4 5" }
+from collections.abc import Sequence, MutableSequence
+import copy
+f: Sequence[str] = ['a', 'b', 'c']
+g = f
+g.extend(['x', 'y', 'z'])  # Type error "Sequence has not attribute 'extend'
+h: MutableSequence[str] = f  # Type error "Incompatible types ..."
+```
+
+Because we said when we created `f` that we did not expect it to be mutatable
+we were warned by the type checker that something was amiss.
+First we were told the `extend` method is not something that makes
+sense for something immutable.
+And then we were warned that trying to assign an immutable thing
+to someting mutable isn't quite right either.
+
+We can, however, make a mutable copy of our sequence
+
+```python
+f: Sequence[str] = ['a', 'b', 'c']
+j: MutableSequence[str] = [element for element in f]
+j.extend(['x', 'y', 'z'])
+print(''.join(j)) # abcxyz
+print(''.join(f)) # abc
+```
+
+Where this becomes much more useful with functions.
+
+```python { title = "more_spam()" verbatim = true }
+def more_spam(ingredients: list[str]) -> list[str]:
+    """Doubles the amount of spam in ingredients."""
+    for ingredient in list(ingredients):
+        if ingredient.upper() == "SPAM":
+            ingredients.append("SPAM")
+    return ingredients
+```
+
+The type annotations for the `more_spam()` function just tell
+us that the argument should be a list of strings.
+It tells us nothing about whether that list might be
+be mutated.
+
+Note only do we need to make an explicit decision about how we want
+the function to behave with respect to mutating its argument,
+we need to communicate that to users of our function
+but also to the type checker so that it can warn us if we try to
+mutate something that we've said shouldn't be mutated.
+
+If we can't decide which behavior we want,
+we can just offer two separate functions.
+
+```python
+def spamify(ingredients: MutableSequence[str]) -> None:
+    for ingredient in list(ingredients):
+        if ingredient.upper() == "SPAM":
+            ingredients.append("SPAM")
+
+
+def spamified(ingredients: Sequence[str]) -> Sequence[str]:
+    doubled: list[str] = []
+    for ingredient in list(ingredients):
+        if ingredient.upper() == "SPAM":
+            doubled.append("SPAM")
+    return doubled
+```
+
+In addition to using abstract type annotations that distinguish mutability,
+we can follow naming conventions that provide some hint at behavior.
+It is also very useful to limit mutation of function parameters to
+functions that return None.
+Functions and methods should do something,
+and if they don't return a value they are doing something other than
+computating a value to return.
 
 ### Respect for privacy {#sec-privacy}
 
