@@ -1,2 +1,3 @@
 TOTP = "Time-based One-Time Password"
 SCIF = "Sensitive Compartmented Information Facility"
+ABC = "Abstract Base Class"

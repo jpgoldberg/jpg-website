@@ -340,32 +340,97 @@ Changing `e` changed `d`,
 and the term for something that is changable is "mutable".
 
 Although this lesson is taught, it is hard to build up the habit of
-remaining mindful of this.
-Failure to be mindful of the consequences of mutation can lead
+remaining mindful of this sort of thing,
+and failure to be mindful of the consequences of mutation can lead
 subtle and difficult to identify bugs.
 
-Python doesn’t offer (much less insist on) ways to say whether some object is mutable or not.
-And attempting to enforce such things in Python leads to deeply messy and un-pythonic code
-and those attempts don't really work anyway.
-That did not stop me from trying when I first started using Python.
+Those bugs often arise because it is sometimes unclear whether whether a function
+changes any of its arguments.
+
+Consider the function `more_spam()`, which aims to double the
+amount of spam in some meal.
+
+```python { title = "more_spam()" verbatim = true }
+def more_spam(ingredients: list[str]) -> list[str]:
+    """Doubles the amount of spam in ingredients."""
+    for ingredient in list(ingredients):
+        if ingredient.upper() == "SPAM":
+            ingredients.append("SPAM")
+    return ingredients
+```
+
+The type annotations for the `more_spam()` function just tell
+us that the argument should be a list of strings.
+It tells us nothing about whether that list might be
+be mutated.
+
+```python {hl_lines = "6"}
+ingredients = ["SPAM", "eggs", "bacon", "spam"]
+print(f"len(ingredients): {len(ingredients)}")  # 4. As expected
+
+doubled = more_spam(ingredients)
+print(f"len(doubled): {len(doubled)}")  # 6. As expected
+print(f"len(ingredients): {len(ingredients)}")  # 6 (is this expected?)
+```
 
 Programming languages differ in the degree and manner in which they force
 the programmer to be mindful of mutability.
 Python itself doesn't force you to think about it until you are deep in
 debugging something that has gone wrong.
+But there are still a number of Pythonmic practices we should do
+to reduce the kinds of bugs that this leads to.
 
-Fortunately we can addres this with type annotations,
-but this time we need to use more abstract types (or classes),
-we we will import from `collections.abc`.
-`Sequence` is used for list-like things that are not expected to be
-mutated,
-while `MutableSequencer` is used for list-like things
-hat are expected to
-be mutated.
+1. Functions that mutate their arguments should not also return a value.
+2. Follow function naming conventions that that provide some hint about this behavoir,
+   using a verb, "`spamify()`" for a mutating varient
+   and a de-verbal adjective,  "`spamified()`", for a non-mutating one.
+   This is similar to Python's "`reverse`" vs "`reversed`" distinction.
+3. Use type annoations that indicate mutability.
 
-```python {hl_lines = "4 5" }
+Much of the remainder of this section talks about (3),
+but to illustrate methods 1 and 2, we would have definitions like
+
+```python
+def spamify1(ingredients: list[str]) -> None:
+    for ingredient in list(ingredients):
+        if ingredient.upper() == "SPAM":
+            ingredients.append("SPAM")
+
+def spamified1(ingredients: list[str]) -> list[str]:
+    doubled: list[str] = []
+    for ingredient in list(ingredients):
+        if ingredient.upper() == "SPAM":
+            doubled.append("SPAM")
+    return doubled
+```
+
+### The ABCs of distinguishing mutatabilty using types
+
+We can use abstract types to give us early warning of potential
+mutation bugs
+often referred to as  Abstract Base Classes ({{< abbr "ABC" >}})s
+in the Python world.
+These are just as we used more concrete types
+the [section on type hints](#sec-types).
+This are just, well, more abstract.
+
+
+We we will import two {{< abbr "ABC" >}}s from
+[`collections.abc`](https://docs.python.org/3/library/collections.abc.html).
+
+```python
 from collections.abc import Sequence, MutableSequence
-import copy
+```
+
+`Sequence`
+: List-like things that are not expected to be mutated.
+
+`MutableSequence`
+: List-like things that are expected to be mutated.
+
+Here is a simple example of them in play.
+
+```python {hl_lines = "3 4" }
 f: Sequence[str] = ['a', 'b', 'c']
 g = f
 g.extend(['x', 'y', 'z'])  # Type error "Sequence has not attribute 'extend'
@@ -389,37 +454,13 @@ print(''.join(j)) # abcxyz
 print(''.join(f)) # abc
 ```
 
-Where this becomes much more useful with functions.
-
-```python { title = "more_spam()" verbatim = true }
-def more_spam(ingredients: list[str]) -> list[str]:
-    """Doubles the amount of spam in ingredients."""
-    for ingredient in list(ingredients):
-        if ingredient.upper() == "SPAM":
-            ingredients.append("SPAM")
-    return ingredients
-```
-
-The type annotations for the `more_spam()` function just tell
-us that the argument should be a list of strings.
-It tells us nothing about whether that list might be
-be mutated.
-
-Note only do we need to make an explicit decision about how we want
-the function to behave with respect to mutating its argument,
-we need to communicate that to users of our function
-but also to the type checker so that it can warn us if we try to
-mutate something that we've said shouldn't be mutated.
-
-If we can't decide which behavior we want,
-we can just offer two separate functions.
+Now we can annotate our example functions properly
 
 ```python
 def spamify(ingredients: MutableSequence[str]) -> None:
     for ingredient in list(ingredients):
         if ingredient.upper() == "SPAM":
             ingredients.append("SPAM")
-
 
 def spamified(ingredients: Sequence[str]) -> Sequence[str]:
     doubled: list[str] = []
@@ -429,13 +470,10 @@ def spamified(ingredients: Sequence[str]) -> Sequence[str]:
     return doubled
 ```
 
-In addition to using abstract type annotations that distinguish mutability,
-we can follow naming conventions that provide some hint at behavior.
-It is also very useful to limit mutation of function parameters to
-functions that return None.
-Functions and methods should do something,
-and if they don't return a value they are doing something other than
-computating a value to return.
+Once again, the Python compiler doesn't make any use of the naming conventions
+and type annotations.
+But, once again, communicating intent to humans and to type checkers
+does prevent us from introducing many nasty bugs.
 
 ### Respect for privacy {#sec-privacy}
 
