@@ -404,7 +404,7 @@ def spamified1(ingredients: list[str]) -> list[str]:
     return doubled
 ```
 
-### The ABCs of distinguishing mutatabilty using types
+#### The ABCs of distinguishing mutatabilty using types
 
 We can use abstract types to give us early warning of potential
 mutation bugs
@@ -413,7 +413,6 @@ in the Python world.
 These are just as we used more concrete types
 the [section on type hints](#sec-types).
 This are just, well, more abstract.
-
 
 We we will import two {{< abbr "ABC" >}}s from
 [`collections.abc`](https://docs.python.org/3/library/collections.abc.html).
@@ -446,7 +445,7 @@ to someting mutable isn't quite right either.
 
 We can, however, make a mutable copy of our sequence
 
-```python
+```python {title = "Copy to mutable type" id="code-copy-2-mutable" }
 f: Sequence[str] = ['a', 'b', 'c']
 j: MutableSequence[str] = [element for element in f]
 j.extend(['x', 'y', 'z'])
@@ -454,7 +453,8 @@ print(''.join(j)) # abcxyz
 print(''.join(f)) # abc
 ```
 
-Now we can annotate our example functions properly
+Now that we have some understanding of `Sequence` and `MutableSequence`
+we can annotate our functions properly.
 
 ```python
 def spamify(ingredients: MutableSequence[str]) -> None:
@@ -474,6 +474,15 @@ Once again, the Python compiler doesn't make any use of the naming conventions
 and type annotations.
 But, once again, communicating intent to humans and to type checkers
 does prevent us from introducing many nasty bugs.
+
+#### About that Base
+
+I ducked a problem by using a list comprehension to copy the list in
+my [copy example](#code-copy-2-mutable)
+instead of the `copy()` method defined for lists.
+This is because `copy` is not an attribute that is declared for `Sequence`
+even though it is defined for lists.
+So the type checker would have treated `f.copy()` as a type error.
 
 ### Respect for privacy {#sec-privacy}
 
