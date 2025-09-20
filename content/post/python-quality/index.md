@@ -484,6 +484,10 @@ This is because `copy` is not an attribute that is declared for `Sequence`
 even though it is defined for lists.
 So the type checker would have treated `f.copy()` as a type error.
 
+This serves as a reminder that `Sequence` is not only an abstract class,
+but it is meant as a *base* class from which more specific classes can be created.
+I will not go into doing so here.
+
 ### Respect for privacy {#sec-privacy}
 
 Every part of a Python object can be inspected or modified when the object is in scope. There are no truly private attributes. But we do have the conventions of naming things that should be treated as private with “_” as the leading character.
