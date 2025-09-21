@@ -1,15 +1,14 @@
 ---
 # Documentation: https://docs.hugoblox.com/managing-content/
 
-title: "Evaluating Python code"
-subtitle: "An answer to the question “How do you evaluate the quality of [a] Python package?”"
-summary: "Don't use a check list for evaluating code quality, but there are still things I look at. Some of them are things that many people who only know Python may struggle with."
-highlight: true
+title: "Three things Python doesn't teach"
+subtitle: "That developers ought to learn"
+summary: "Someone learning software development through Python alone might never learn how the power of types, attention to mutability, and the private/public distinction can be used to prevent many nasty bugs. This article tries to present some idea of how important those practices are and how to make use of those concepts while still letting “Python be Python.”"
 authors: []
 tags: []
 categories: []
-date: 2025-09-12T14:06:36-05:00
-lastmod: 2025-09-12T14:06:36-05:00
+date: 2025-09-21T17:34:51-05:00
+lastmod: 2025-09-21T17:34:51-05:00
 featured: false
 draft: true
 
@@ -29,183 +28,29 @@ image:
 projects: []
 ---
 
-I had started to write a reply to a
-[question on Reddit](https://www.reddit.com/r/learnpython/s/5YPXp28hiB),
-which offered an initial check list of things to look for to evaluate the quality
-of a Python project and solicited additional items.
-The response that I started to draft grew in length and complexity,
-and so I am posting that here instead.
-
-In many sections I have gone well beyond answering how I evaluate into why I feel
-that the things I look for are important.
-In particular I try to communicate some of the importance of a
-[trio of good practices](#sec-trinity) that Python doesn't teach.
-This involves concepts of good software design that individuals who only learn Python
-might be totally unaware of.
-
-{{< toc >}}
-
-## Don’t use check lists to evaluate
-
-The original question was presented in a way that could lead people to think in terms
-of check lists of features and tools.
-Despite the fact that there are things that I will notice (or notice missing)
-that will inform my judgement of the quality of some Python project,
-it is a mistake to largely think in terms of check lists.
-Sometimes there are good reasons why some project is lacking something
-I might generally expect of a high quality project,
-and there are times when the things I like to see are present but are done poorly.
-
-The biggest problem with establishing check lists isn’t for the person evaluating the code.
-The problem with check lists is for the novice programmer attempting to check all the boxes
-without good understanding of what they are about.
-If the novice developer goes down that path, they are likely to
-
-- take on too much at one time;
-- miss what they should be focusing on in their particular stage of their learning;
-- find themselves extremely frustrated in their attempt;
-- and quite possibly end up producing worse code than if they hadn't tried to satisfy such a list.
-
-Another important thing for anyone using this or any other similar list of better practices
-to improve their code is that pretty much everything I discuss can be done partially.
-These are not all-or-nothing practices.
-Doing a bit of testing is better than doing no testing.
-Doing more testing is better than doing just a bit of testing.
-That isn't just true of testing. It is to varying degrees of everything
-I mention.
-If you are are reading this to help you improve your own
-projects,
-then focus on the word “improve”.
-
-### Don't insist on all the newest and shiniest tools {#sec-shiny}
-
-The original question listed use of some relatively new shiny tools,
-many of which I strongly recommend.
-But using those tools is more of a reflection of when the project was created than of code quality itself.
-So I would not rate those too highly.
-While I have my preferences regarding
-[unittest](https://docs.python.org/3/library/unittest.html#module-unittest)
-or [pytest](https://docs.pytest.org/en/stable/),
-which tool developers use is often driven by mere accidents of which tool they got up and running first.
-
-## Understand your own code {#sec-bad-vibes}
-
-{{< quote source="Fowler et al. (1999)" >}}
-Any fool can write code that a computer can understand.
-Good programmers write code that humans can understand.
-{{< /quote >}}
-
-It really should go without saying that a developer must understand
-their code and are responsible for the design choices.
-And so I will say little more about this here beyond stating
-that I don't care what tools someone used to develop their software
-as long as the code itself is understandable and understood by the developer.
-
-## Test {#sec-test}
-
-Testing is essential, but see more about this in the [next section](#sec-defensively).
-
-## Code defensively {#sec-defensively}
-
-Defensive coding is thinking about and preparing for ways that things can go wrong,
-and this has implications for, among other things, the kinds of tests you write.
-
-Too often people only test that their functions and methods work in the normal case.
-I am certainly guilty of this because during development
-I write a test just to see that I have the thing basically working
-and tell myself that I will flesh out the tests later.
-But, hypocrite that I am,
-what I really like to see is unhappy path unit testing.
-Proper tests check what happens with edge cases and with unusual inputs.
-
-Suppose we have a function that expects a probability as an argument.
-What happens when it is passed a value that is not between 0 and 1?
-What happens when it is exactly 1 or 0?
-It is important to test these boundary conditions (where things often go wrong)
-and certainly test when the input values clearly don't meet expectations.
-
-Or more simply, let's look at the typical
-first introduction to recursion function that people may encounter.
-
-```python { title="Things go bad when we are negative" verbatim=false }
-def factorial(n: int) -> int:
-  if n == 0:
-    return 1
-  return n * factorial(n - 1)
-```
-
-What happens if you try `factorial(-5)`?
-(You get a [`RecursionError`](https://docs.python.org/3/library/exceptions.html#RecursionError), that's what.)
-
-Both the probability and factorial examples are typically addressed by
-checking the value passed to the function
-and raising
-a [`ValueError`](https://docs.python.org/3/library/exceptions.html#ValueError)
-if it is not sensible input.
-But that isn't the only design choice.
-What is important that anyone (including yourself at some point in the future)
-know what to expect.
-
-If you develop the habit of testing with peculiar inputs, you will find yourself
-writing better thought out functions in the first place.
-
-### Run time type checking? {#sec-isinstance}
-
-When I first started using Python a few years ago,
-I made frequent use run-time enforcement of the types of arguments passed to a function.
-In particular I used [`isinstance`](https://docs.python.org/3/library/functions.html#isinstance),
-and raise a [`ValueError`](https://docs.python.org/3/library/exceptions.html#ValueError) if
-the wrong type of argument is passed to a function.
-That is my hypothetical factorial function might look something like
-
-```python { title="factorial with run time type enforcement" verbatim=false hl_lines = "2-3" }
-def factorial(n: int) -> int:
-  if not isinstance(n, int):
-    raise TypeError("n must be an integer")
-  if < 0:
-    raise ValueError("n can't be negative")
-  if n == 0:
-    return 1
-  return n * factorial(n - 1)
-```
-
-I no longer do that.
-My increased understanding and grudging acceptance of Python type system
-along with the substantial improvements in support type type hinting
-has led me to prefer static type checking to help me use
-the [logic of types](#sec-types).
-There are varying, and often strongly held,
-opinions about heavy use of run time type checking in Python.
-Indeed, my opinion has varied over time,
-and I do not wish to try to persuade anyone of my current view.
-I am merely stating it.
-
-## Documentation {#sec-docs}
-
-[DataCamp](https://www.datacamp.com/) has a nice
-[tutorial on Python docstrings](https://www.datacamp.com/tutorial/docstrings-python)
-that does a better job than I could at explaining what these are and why they are useful.
-
-While I would expect a mature project by mature developers to have documentation
-that includes, but goes beyond, docstrings,
-I would not recommend that a novice Python developer spend too much time
-struggling with [Sphinx](https://www.sphinx-doc.org/en/master/index.html)
-when they could be learning other things.
-
-I can’t blame anyone for not wanting to use Sphinx to generate documentation in various formats. It is definitely not something a novice programmer should have to worry about. But more mature projects by mature developers, I would expect some complete documentation.
-
-## Three things Python doesn't teach {#sec-trinity}
-
-This is where I am going to say things that may irritate some Python advocates.
-That is ok,
-I will also say things in this section that will also irritate some of Python's
-fiercest critics.
+When you learn to program with a particular particular language you are learning (at least)
+two things:
+(1) how to program,
+and (2) how to use the specific programming language that you are starting to program with.
+These, of course are intertwined. 
 
 Python is a fine choice as first language to learn for many of the reasons people say,
 but it leads to bad habits.
 What's worse is that those bad habits are habits of omission.
 Quite simply most people who only learn Python will not even be aware of very important concepts
 of good software design.
+There are practices one can follow using those concepts
+that help avoid large categories of nasty bugs,
+but they typical Python-only path for learning to program
+is more likely to conceal the importance of these concepts than prepare learners to use them.
+
+
+This article is roughly aimed at two audiences.
+The first is the Python programmer whose only programming experience is with Python and has reached a stage where they are comfortable with
+defining functions and has some sense of what classes are for.
+If you are first learning programming in Python but have not yet learned the basics,
+you may wish to take a look at this to understand that there are important practices
+that you might not be aware of 
 
 Python itself doesn’t provide enforceable means enforce better habits,
 nor does the Python interpreter itself make any use of the good practices I advocate in this section.
@@ -214,7 +59,7 @@ as well as produce cleaner, more maintainable, and more readable code.
 
 These practices will help the developer reason more clearly about their own code.
 
-### The logic of types {#sec-types}
+## The logic of types {#sec-types}
 
 Type annotations (also called “type hints”) are a must.
 This, along with writing unit tests, is what I would consider the top priorities.
@@ -299,7 +144,7 @@ running a static type checker will help the developer
 catch and prevent potential and subtle bugs early.
 {{% /callout %}}
 
-#### Some tools
+### Some tools
 
 My goal has been to introduce the concept and benefits of static type checking in Python,
 instead writing a how-to guide,
@@ -317,7 +162,7 @@ with at least the things that I happen to use.
 Both of those can be configured with respect to how strict they are.
 And each recommends that you start out with not very strict settings.
 
-### Mindfulness about mutability
+## Mindfulness about mutability
 
 Everyone learning Python is taught something like the fact
 that the "`=`" in lines 2 and 8 behave differently.
@@ -404,7 +249,7 @@ def spamified1(ingredients: list[str]) -> list[str]:
     return doubled
 ```
 
-#### The ABCs of distinguishing mutatabilty using types
+### The ABCs of distinguishing mutatabilty using types
 
 We can use abstract types to give us early warning of potential
 mutation bugs
@@ -475,7 +320,7 @@ and type annotations.
 But, once again, communicating intent to humans and to type checkers
 does prevent us from introducing many nasty bugs.
 
-#### About that Base
+### About that Base
 
 I ducked a problem by using a list comprehension to copy the list in
 my [copy example](#code-copy-2-mutable)
@@ -488,7 +333,7 @@ This serves as a reminder that `Sequence` is not only an abstract class,
 but it is meant as a *base* class from which more specific classes can be created.
 I will not go into doing so here.
 
-### Respect for privacy {#sec-privacy}
+## Respect for privacy {#sec-privacy}
 
 Every part of a Python object can be inspected or modified when the object is in scope. There are no truly private attributes. But we do have the conventions of naming things that should be treated as private with “_” as the leading character.
 
