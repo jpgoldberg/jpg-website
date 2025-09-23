@@ -28,11 +28,18 @@ image:
 projects: []
 ---
 
+{{< epigraph
+  author="Roman Jacobson"
+  cite="On Linguistic Aspects of Translation"
+  detail= "(1959)" >}}
+Languages differ essentially in what they must convey and not in what they may convey’
+{{< /epigraph >}}
+
 When you learn to program with a particular particular language you are learning (at least)
 two things:
 (1) how to program,
 and (2) how to use the specific programming language that you are starting to program with.
-These, of course are intertwined. 
+These, of course are intertwined.
 
 Python is a fine choice as first language to learn for many of the reasons people say,
 but it leads to bad habits.
@@ -43,7 +50,6 @@ There are practices one can follow using those concepts
 that help avoid large categories of nasty bugs,
 but they typical Python-only path for learning to program
 is more likely to conceal the importance of these concepts than prepare learners to use them.
-
 
 This article is roughly aimed at two audiences.
 The first is the Python programmer whose only programming experience is with Python and has reached a stage where they are comfortable with
