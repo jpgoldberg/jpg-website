@@ -32,7 +32,7 @@ projects: []
   author="Roman Jacobson"
   cite="On Linguistic Aspects of Translation"
   detail= "(1959)" >}}
-Languages differ essentially in what they must convey and not in what they may convey’
+Languages differ essentially in what they must convey and not in what they may convey.
 {{< /epigraph >}}
 
 When you learn to program with a particular particular language you are learning (at least)
