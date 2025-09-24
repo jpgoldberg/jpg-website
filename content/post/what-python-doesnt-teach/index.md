@@ -2,7 +2,7 @@
 # Documentation: https://docs.hugoblox.com/managing-content/
 
 title: "Three things Python doesn't teach"
-subtitle: "That developers ought to learn"
+subtitle: "Distinguishing public vs private attributes, using the logic of types, and being minful of mutability"
 summary: "Someone learning software development through Python alone might never learn how the power of types, attention to mutability, and the private/public distinction can be used to prevent many nasty bugs. This article tries to present some idea of how important those practices are and how to make use of those concepts while still letting “Python be Python.”"
 authors: []
 tags: []
@@ -35,13 +35,19 @@ projects: []
 Languages differ essentially in what they must convey and not in what they may convey.
 {{< /epigraph >}}
 
-When you learn to program with a particular particular language you are learning (at least)
-two things:
-(1) how to program,
-and (2) how to use the specific programming language that you are starting to program with.
-These, of course are intertwined.
+When you first learn to program with a particular particular language
+you are learning two things (amoung others):
 
+1. How to program;
+2. How to use that specific programming language for programming.
+  
+These, of course, are intertwined,
+but it is important to keep in mind (1) is about learning how to
+think about and solve certain sorts of puzzle.
 Python is a fine choice as first language to learn for many of the reasons people say,
+in particular it doesn't get in the way of learning how to program as much as many alternative do.
+But that is a discussion for another day.
+
 but it leads to bad habits.
 What's worse is that those bad habits are habits of omission.
 Quite simply most people who only learn Python will not even be aware of very important concepts
