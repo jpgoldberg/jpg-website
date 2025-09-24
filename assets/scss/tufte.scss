@@ -5,15 +5,16 @@
 }
 
 .epigraph > blockquote {
-    margin-top: 3em;
-    margin-bottom: 3em;
+    margin-top: 2em;
+    margin-bottom: 1em;
+    border-left-style: none ;
 }
 
 .epigraph > blockquote {
     font-style: italic;
 }
 
-.epigraph > blockquote > footer {
+.epigraph > blockquote  footer {
     font-style: normal;
 }
 
@@ -25,7 +26,7 @@ blockquote {
     font-size: 1.4rem;
 }
 
-blockquote p {
+.epigraph > blockquote p {
     width: 85%;
 }
 
@@ -33,6 +34,7 @@ blockquote footer {
     width: 85%;
     font-size: 1.1rem;
     text-align: right !important;
+    margin-top: 1ex;
 }
 
 /* end chapter epigraphs styles */

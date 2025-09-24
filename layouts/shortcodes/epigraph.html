@@ -7,7 +7,7 @@
 */}}
 <div class="epigraph">
 <blockquote>
-{{ .Inner | $.Page.RenderString (dict "display" "block") }}
+{{ .Inner | $.Page.RenderString (dict "display" "inline") }}
 {{ if .IsNamedParams }}
     <footer>
     {{- with .Get "author" -}}{{ . }}{{- end -}}
