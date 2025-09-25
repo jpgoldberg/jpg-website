@@ -2,7 +2,7 @@
 # Documentation: https://docs.hugoblox.com/managing-content/
 
 title: "Three things Python doesn't teach"
-subtitle: "Distinguishing public vs private attributes, using the logic of types, and being minful of mutability"
+subtitle: "Distinguishing public vs private attributes, using the logic of types, and being mindful of mutability"
 summary: "Someone learning software development through Python alone might never learn how the power of types, attention to mutability, and the private/public distinction can be used to prevent many nasty bugs. This article tries to present some idea of how important those practices are and how to make use of those concepts while still letting “Python be Python.”"
 authors: []
 tags: []
@@ -36,7 +36,7 @@ Languages differ essentially in what they must convey and not in what they may c
 {{< /epigraph >}}
 
 When you first learn to program with a particular particular language
-you are learning two things (amoung others):
+you are learning two things (among others):
 
 1. How to program;
 2. How to use that specific programming language for programming.
@@ -46,10 +46,12 @@ but it is important to keep in mind (1) is about learning how to
 think about and solve certain sorts of puzzle.
 Python is a fine choice as first language to learn for many of the reasons people say,
 in particular it doesn't get in the way of learning how to program as much as many alternative do.
-But that is a discussion for another day.
+Indeed, Python allows the programmer to get on with things without
+forcing them the to make or specify certain distinctions
+that other programming languages do confront users with.
+This leaves people unaware of the distinctions and good practices
+that help avoid bugs.
 
-but it leads to bad habits.
-What's worse is that those bad habits are habits of omission.
 Quite simply most people who only learn Python will not even be aware of very important concepts
 of good software design.
 There are practices one can follow using those concepts
@@ -57,19 +59,206 @@ that help avoid large categories of nasty bugs,
 but they typical Python-only path for learning to program
 is more likely to conceal the importance of these concepts than prepare learners to use them.
 
+Understanding these concepts and following the kinds of practices I describe below
+will help the developer avoid whole classes of subtle bugs and make it easier
+for them to reason about their own code.
+
+## Who are you?
+
 This article is roughly aimed at two audiences.
-The first is the Python programmer whose only programming experience is with Python and has reached a stage where they are comfortable with
-defining functions and has some sense of what classes are for.
-If you are first learning programming in Python but have not yet learned the basics,
-you may wish to take a look at this to understand that there are important practices
-that you might not be aware of 
+You may be a Python programmer whose only programming experience is with Python
+and you have reached a stage where they are comfortable with defining functions,
+and you have understanding classes as a way to keep data and methods.
+You do not need to be familiar with class inheritance.
 
-Python itself doesn’t provide enforceable means enforce better habits,
-nor does the Python interpreter itself make any use of the good practices I advocate in this section.
-But there are Pythonic conventions, tools, and practices will very much help developers avoid bugs
-as well as produce cleaner, more maintainable, and more readable code.
+Or perhaps you are coming to Python from some other language
+and you find yourself struggling to make use of certain important concepts
+that Python lacks.
+Here I will point you to Pythonic ways to get some of what you seek while still,
+in the words of a very wise friend of mine, “letting Python be Python.”
 
-These practices will help the developer reason more clearly about their own code.
+{{% callout title="Advanced note" %}}
+For the experienced programmer, it is important to note that the Python interpreter
+does not make use of the mechanisms described below,
+but these still have value in that they can still play a large role in reducing
+human error when programming.
+{{% /callout %}}
+
+### Some terminology
+
+In much of what follows I will talk about the “user” of a class or function.
+That user not only can be some other person using a library or module that
+you share,
+but that user can be you.
+Even though you might know the details of a function or class you create when you
+create it, you will still need to communicate to yourself at a later time how
+your creations are expected to be used.
+I will also be lax in my use of the terms “function” versus ”method”, often using ”function” to include both.
+Similarly, I will be lax in my use of “interpreter” versus “compiler”.
+The distinction matters for understanding why Python is the way that it is,
+but it doesn't matter for my discussion here.
+
+## Respect for privacy {#sec-privacy}
+
+I will start with something that may be familiar with.
+Many Python-only developers have learned when to use "`_`" at the start
+of a variable name and when to use the `@property` decorator,
+but using this more familiar example helps illustrate the kind of thing
+I am discussing.
+Many other programming languages force users to specify which attributes
+of a class are public and which are private,
+and the privacy is often enforced by the compiler.
+But Python itself does not prevent you from accessing and changing any attribute of a class.
+As far as the language is concerned all parts are public.
+
+Let's see how that can cause trouble.
+I will be defining various classes for a point on a plane to illustrate things.
+
+```python {title = "A point with public attributes" id ="code-Pnt1"}
+class Pnt1:
+    def __init__(self, x: float, y: float):
+        self.x = x
+        self.y = y
+
+        # Polar coordinates
+        self.r = (self.x ** 2 + self.y ** 2) ** (1/2)
+        self.theta = math.atan2(y, x)
+```
+
+In our [definition of `Pnt1`](#code-Pnt1), we have a bunch of attributes,
+including `x`, `y`, `r`, and `theta`.
+All of these can be accessed and manipulated from outside of the the class.
+
+```python { title = "Inconsistent internal state" hl_lines ="6" linenos = "true" id = "code-inconsistant" }
+p = Pnt1(3, -4)
+print(p.r)  # approximately 5
+
+p.x = 0
+...  # imagine there were many lines of other code here
+print(p.r)  # Still 5, were you expecting 4?
+```
+
+Nothing about how `Pnt1` is presented to the user of the class tells us
+that setting `x` (as we do on line 4) to a different value will
+leave the point in an inconsistent state.
+In this small examples, it is usually easy to see where things go wrong,
+but keep in mind that where you might manipulates `p.x` (our line 4)
+and where you might make use of the radius in polar coordinates (our line 6)
+may be be in distant parts of your code.
+
+To fix this, we should either prevent (well discourage) the user from messing with
+the coordinates directly
+or, if we allow such manipulation, we make sure that the polar coordinates get updated
+when the Cartesian coordinates change.
+There are Pythonic ways to do either, but I will focus my examples on the first.
+We will discourage the user of the class from manipulating the `x` and `y` values of a point after
+it has been created.
+
+```python {title = "A point with public properties" id="code-private-point" }
+class Point:
+    def __init__(self, x: float, y: float):
+        self._x = x
+        self._y = y
+
+        # Polar coordinates
+        self._r = (self._x ** 2 + self._y ** 2) ** (1/2)
+        self._theta = math.atan2(y, x)
+
+    @property
+    def x(self):
+        """Cartesian X coordinate."""
+        return self._x
+    ...
+    @property
+    def r(self):
+        """Polar radius"""
+        return self._r
+```
+
+Here we have used names beginning with "`_`" for those attributes of a point
+that we don't want to user to access or manipulate directly.
+We can't prevent users from doing so,
+but the naming convention tells the user that
+they really shouldn't be accessing those attributes that way.
+Many tools used with Python can work to reinforce that convention,
+but it is really on the user to understand use of attributes whose names
+begin with "`_`" from outside the module where those are defined is just asking for trouble.
+
+```python {title = "Disrespecting privacy" hl_lines ="3"}
+p2 = Point(-5, 12)
+print(p2.r)  # Approximately 13
+p2._x = 0  # Don't do this outside class or module where Point is defined
+print(p2.r)  # Still approximately 13, not 12
+```
+
+You are expected to use these private attributes within the class or module
+where you have defined them,
+but when you are the user of the class or module, you are setting yourself up for trouble
+when you do so.
+
+Furthermore the user can now access, but not change, the X value through `.x`
+
+```python {title = "Setting a property is prevented" hl_lines = "5"}
+p2 = Point(-5, 12)
+print(p2.r)  # Approximately 13
+print(p2.x)  # .x is still readable
+try:
+    p2.x = 0  #  This will be an error
+except AttributeError:
+    print("There was an error. Can't use .x to change a point")
+```
+
+If you are not yet familiar with `try` and `except` ignore that.
+I just wrapped this error in that so that my sample code still runs.
+
+Let me give another example of the kind of trouble that direct access to such attributes
+can lead to.
+For those of you who learned and recall anything about polar coordinates,
+you may know that angle theta (θ) could be stated in either degrees or radians.
+In what I have above it happens to be radians.
+But suppose you want the freedom to change your mind about the units to use internally
+in the non-public parts of your class without messing things up for the user.[^-273]
+
+[^-273]: The example of radians vs degrees is more than a bit contrived, but consider a class in which it is very useful to perform all computations regarding temperature in degrees Kelvin, while degrees Celsius is what makes the most sense for the user of the class.
+
+You might add this property to your class.
+
+```python
+...  # continue defining Point class
+
+    @property
+    def theta(self):
+        """Degrees from positive X axis."""
+        return math.degrees(self._theta)
+
+```
+
+As long as the user stays away from accessing `._theta` they will not have to
+worry or know what you use internally.
+Indeed, it might be better and safer to not offer `.theta` at all, but just have
+
+```python
+...  # continue defining Point class
+
+    @property
+    def angle_degree(self):
+        """Degrees from positive X axis."""
+        return math.degrees(self._theta)
+
+    @property
+    def angle_radian(self):
+        """Radians from positive X axis."""
+        return self._theta)
+
+```
+
+As I hinted above, there are Pythonic ways in which we could have allowed user to
+modify a point after it is created and still keep the internals of the point consistent,
+but my primary goal in this section was to illustrate why it is important to
+be mindful of of the public/private distinction even though it isn't built into Python.
+Additionally I wanted to illustrate the fact that there are Pythonic ways to
+make use of the distinction to help you reduce often subtle error errors.
+The same sort of goals drive the following sections.
 
 ## The logic of types {#sec-types}
 
@@ -194,7 +383,7 @@ print(''.join(d)) # abcxyz
 ```
 
 Changing `e` changed `d`,
-and the term for something that is changable is "mutable".
+and the term for something that is changeable is "mutable".
 
 Although this lesson is taught, it is hard to build up the habit of
 remaining mindful of this sort of thing,
@@ -234,15 +423,15 @@ Programming languages differ in the degree and manner in which they force
 the programmer to be mindful of mutability.
 Python itself doesn't force you to think about it until you are deep in
 debugging something that has gone wrong.
-But there are still a number of Pythonmic practices we should do
+But there are still a number of Pythonic practices we should do
 to reduce the kinds of bugs that this leads to.
 
 1. Functions that mutate their arguments should not also return a value.
-2. Follow function naming conventions that that provide some hint about this behavoir,
-   using a verb, "`spamify()`" for a mutating varient
+2. Follow function naming conventions that that provide some hint about this behavior,
+   using a verb, "`spamify()`" for a mutating variant
    and a de-verbal adjective,  "`spamified()`", for a non-mutating one.
    This is similar to Python's "`reverse`" vs "`reversed`" distinction.
-3. Use type annoations that indicate mutability.
+3. Use type annotations that indicate mutability.
 
 Much of the remainder of this section talks about (3),
 but to illustrate methods 1 and 2, we would have definitions like
@@ -261,7 +450,7 @@ def spamified1(ingredients: list[str]) -> list[str]:
     return doubled
 ```
 
-### The ABCs of distinguishing mutatabilty using types
+### The ABCs of distinguishing mutability using types
 
 We can use abstract types to give us early warning of potential
 mutation bugs
@@ -293,12 +482,12 @@ g.extend(['x', 'y', 'z'])  # Type error "Sequence has not attribute 'extend'
 h: MutableSequence[str] = f  # Type error "Incompatible types ..."
 ```
 
-Because we said when we created `f` that we did not expect it to be mutatable
+Because we said when we created `f` that we did not expect it to be mutable
 we were warned by the type checker that something was amiss.
 First we were told the `extend` method is not something that makes
 sense for something immutable.
 And then we were warned that trying to assign an immutable thing
-to someting mutable isn't quite right either.
+to something mutable isn't quite right either.
 
 We can, however, make a mutable copy of our sequence
 
@@ -344,9 +533,3 @@ So the type checker would have treated `f.copy()` as a type error.
 This serves as a reminder that `Sequence` is not only an abstract class,
 but it is meant as a *base* class from which more specific classes can be created.
 I will not go into doing so here.
-
-## Respect for privacy {#sec-privacy}
-
-Every part of a Python object can be inspected or modified when the object is in scope. There are no truly private attributes. But we do have the conventions of naming things that should be treated as private with “_” as the leading character.
-
-In the class Point, users can change the value of x after the point is created. We might not want that.
