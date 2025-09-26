@@ -35,15 +35,15 @@ projects: []
 Languages differ essentially in what they must convey and not in what they may convey.
 {{< /epigraph >}}
 
-When you first learn to program with a particular particular language
+When you first learn to program with a particular language
 you are learning two things (among others):
 
 1. How to program;
 2. How to use that specific programming language for programming.
   
-These, of course, are intertwined,
+These are intertwined of course,
 but it is important to keep in mind (1) is about learning how to
-think about and solve certain sorts of puzzle.
+think about an d solve certain sorts of puzzle.
 Python is a fine choice as first language to learn for many of the reasons people say,
 in particular it doesn't get in the way of learning how to program as much as many alternative do.
 Indeed, Python allows the programmer to get on with things without
@@ -52,16 +52,16 @@ that other programming languages do confront users with.
 This leaves people unaware of the distinctions and good practices
 that help avoid bugs.
 
-Quite simply most people who only learn Python will not even be aware of very important concepts
-of good software design.
+Quite simply most people who only learn Python will not even be aware of
+some very important concepts of good software design.
 There are practices one can follow using those concepts
 that help avoid large categories of nasty bugs,
 but they typical Python-only path for learning to program
 is more likely to conceal the importance of these concepts than prepare learners to use them.
 
 Understanding these concepts and following the kinds of practices I describe below
-will help the developer avoid whole classes of subtle bugs and make it easier
-for them to reason about their own code.
+will help you avoid whole classes of subtle bugs and make it easier
+for you to reason about your own code.
 
 ## Who are you?
 
@@ -146,11 +146,12 @@ but keep in mind that where you might manipulates `p.x` (our line 4)
 and where you might make use of the radius in polar coordinates (our line 6)
 may be be in distant parts of your code.
 
-To fix this, we should either prevent (well discourage) the user from messing with
+To fix this we should either prevent (well discourage) the user from messing with
 the coordinates directly
 or, if we allow such manipulation, we make sure that the polar coordinates get updated
 when the Cartesian coordinates change.
-There are Pythonic ways to do either, but I will focus my examples on the first.
+There are Pythonic ways to do either,
+but I will focus my examples on the first approach.
 We will discourage the user of the class from manipulating the `x` and `y` values of a point after
 it has been created.
 
@@ -193,10 +194,11 @@ print(p2.r)  # Still approximately 13, not 12
 
 You are expected to use these private attributes within the class or module
 where you have defined them,
-but when you are the user of the class or module, you are setting yourself up for trouble
-when you do so.
+but when you are the user of the class or module,
+you would be setting yourself up for trouble when you do so.
 
-Furthermore the user can now access, but not change, the X value through `.x`
+Using the decorator [`@property`](https://docs.python.org/3/library/functions.html#property)
+as we have done so will allow the user to access, but not change, the X value through `.x`
 
 ```python {title = "Setting a property is prevented" hl_lines = "5"}
 p2 = Point(-5, 12)
@@ -225,7 +227,6 @@ You might add this property to your class.
 
 ```python
 ...  # continue defining Point class
-
     @property
     def theta(self):
         """Degrees from positive X axis."""
@@ -234,12 +235,11 @@ You might add this property to your class.
 ```
 
 As long as the user stays away from accessing `._theta` they will not have to
-worry or know what you use internally.
-Indeed, it might be better and safer to not offer `.theta` at all, but just have
+worry or know what units you use internally.
+Indeed you might choose not offer `.theta` at all, but just have
 
 ```python
 ...  # continue defining Point class
-
     @property
     def angle_degree(self):
         """Degrees from positive X axis."""
@@ -252,21 +252,65 @@ Indeed, it might be better and safer to not offer `.theta` at all, but just have
 
 ```
 
-As I hinted above, there are Pythonic ways in which we could have allowed user to
-modify a point after it is created and still keep the internals of the point consistent,
-but my primary goal in this section was to illustrate why it is important to
-be mindful of of the public/private distinction even though it isn't built into Python.
-Additionally I wanted to illustrate the fact that there are Pythonic ways to
+There are other Pythonic ways to keep the internals of a Point consistent,
+but recall that I am not offering a tutorial on these techniques.
+Instead my goals in this section were first to illustrate why it is important to
+be mindful of of the public/private distinction even though it isn't built into Python,
+and second to illustrate the fact that there are Pythonic ways to
 make use of the distinction to help you reduce often subtle error errors.
-The same sort of goals drive the following sections.
+In this way this section has been a model for what is to come of the next two.
 
 ## The logic of types {#sec-types}
 
-Type annotations (also called “type hints”) are a must.
-This, along with writing unit tests, is what I would consider the top priorities.
-I recognize that the ability to do this well is relatively recent,
-but at this writing (September 2025) Python 3.9 has only a month to live,
-so one can start by using what is available for Python 3.10.
+There are things that we can do with some types of data that we can't do with others.
+For example, dividing by a string isn't something that is defined
+
+```console
+>>> 5 / "xyz"
+Traceback (most recent call last):
+  File "<python-input-3>", line 1, in <module>
+    5 / "xyz"
+    ~~^~~~~~~
+TypeError: unsupported operand type(s) for /: 'int' and 'str'
+```
+
+In that case we obviously were trying to divide by a string,
+and doing something peculiar with them.
+But it won't always be immediately obvious.
+
+Suppose you are making use a function that gets the modify time
+of a specified file.
+
+```python
+import os
+def modified_time1(filename):
+    """Modify time in seconds from the start of epoch"""
+    try:
+        mtime = os.stat(filename).st_mtime
+    except FileExistsError:
+        return None
+    return mtime
+```
+
+If elsewhere in your code you treat what is returned from that as an integer
+strange things might happen. If you are lucky a `TypeError` will be raised quickly.
+That would help you find the bug fairly quickly.
+
+If `modified_time` has proper type annotations for its return type,
+errors could be stopped earlier
+
+```python
+def modified_time(filename: str) -> int | None:
+    ...
+```
+
+This will give type checkers the information necessary to let you know that
+there is a a problem in
+
+```python { hl_lines = "2"}
+mtime = modified_time("foo.txt")
+mtime_in_minutes = mtime / 60  # Type checker will report an error
+```
 
 The most immediate gain from type annotations is that
 they serve as important documentation for functions and methods.
@@ -301,7 +345,7 @@ from many of those sorts of bugs.
 
 ```python { title = "Catching bugs early" hl_lines = "2" }
 b = f2("abc")
-d = f1(b)  # Type checker will report an error, as b us a float
+d = f1(b)  # Type checker will report an error, as b is a float
 ```
 
 In the example above, we have one intermediate variable, `b`
@@ -475,18 +519,18 @@ from collections.abc import Sequence, MutableSequence
 
 Here is a simple example of them in play.
 
-```python {hl_lines = "3 4" }
+```python {title="The typechecker warns about mutatin" hl_lines = "3 4" linenos = "true" }
 f: Sequence[str] = ['a', 'b', 'c']
 g = f
 g.extend(['x', 'y', 'z'])  # Type error "Sequence has not attribute 'extend'
 h: MutableSequence[str] = f  # Type error "Incompatible types ..."
 ```
 
-Because we said when we created `f` that we did not expect it to be mutable
+Because we said when we created `f` (line 1) that we did not expect it to be mutable
 we were warned by the type checker that something was amiss.
-First we were told the `extend` method is not something that makes
+First (line 3) we were told the `extend` method is not something that makes
 sense for something immutable.
-And then we were warned that trying to assign an immutable thing
+And then (line 4) we were warned that trying to assign an immutable thing
 to something mutable isn't quite right either.
 
 We can, however, make a mutable copy of our sequence
@@ -518,18 +562,5 @@ def spamified(ingredients: Sequence[str]) -> Sequence[str]:
 
 Once again, the Python compiler doesn't make any use of the naming conventions
 and type annotations.
-But, once again, communicating intent to humans and to type checkers
+But communicating intent to humans and to type checkers
 does prevent us from introducing many nasty bugs.
-
-### About that Base
-
-I ducked a problem by using a list comprehension to copy the list in
-my [copy example](#code-copy-2-mutable)
-instead of the `copy()` method defined for lists.
-This is because `copy` is not an attribute that is declared for `Sequence`
-even though it is defined for lists.
-So the type checker would have treated `f.copy()` as a type error.
-
-This serves as a reminder that `Sequence` is not only an abstract class,
-but it is meant as a *base* class from which more specific classes can be created.
-I will not go into doing so here.
