@@ -295,29 +295,52 @@ def modified_time1(filename):
 If elsewhere in your code you treat what is returned from that as an integer
 strange things might happen. If you are lucky a `TypeError` will be raised quickly.
 That would help you find the bug fairly quickly.
+But sometimes the bug may surface much less directly.
 
 If `modified_time` has proper type annotations for its return type,
 errors could be stopped earlier
 
-```python
+```python {title = "Function signature with type annotations" id="code-mtime-func"}
 def modified_time(filename: str) -> int | None:
+    """Modify time in seconds from the start of epoch."""
     ...
 ```
 
-This will give type checkers the information necessary to let you know that
-there is a a problem in
+That type annotation serves as important documentation
+to the user of the function.
+In addition to letting us know that it can sometimes return `None` it also
+lets us know that the argument to must be a string,
+so we know that the function is not intended to be used with
+a `pathlib.Path` or file descriptor.
+The function might *happen* to work with those other ways to identify files,
+but the author of the function is not promising that it will.
 
-```python { hl_lines = "2"}
+In addition to serving as documentation to the user,
+this will give type checkers the information necessary to let you know that
+there is a a problem.
+
+Given the type annotated function signature we have for
+[`modified_time`](#code-mtime-func)
+the type checker will report an error on line 4 [the code below](#code-mtime-none).
+
+```python { hl_lines = "4" linenos = "true" id="code-mtime-none"}
+# Why would we want such a thing?
+# No good reason other than I failed to create a less contrived example
 mtime = modified_time("foo.txt")
-mtime_in_minutes = mtime / 60  # Type checker will report an error
+mtime_in_minutes = mtime / 60
 ```
 
-The most immediate gain from type annotations is that
-they serve as important documentation for functions and methods.
-They tell the people using your functions what data types/classes your function
-expects its arguments to be and the type of the data returned.
-They work hand-in-hand with docstrings in this respect.
+Static type checkers can be run in several ways,
+one of which is within your code editor or
+{{< abbr "IDE" "Integrated Development Environment" >}}
 
+{{< figure
+    src="type-use-in-IDE.png"
+    alt="Screenshot portion of IDE window showing type error indicated and documentation of modified_time function on hover"
+    caption="Python VS Code extension shows function doc when function is hovered over and displays type errors as you make them."
+>}}
+
+I will now move on from my contrived example to more abstract examples.
 Consider two function signatures
 
 ```python { title="Two functions" verbatim=false }
@@ -406,6 +429,25 @@ with at least the things that I happen to use.
 
 Both of those can be configured with respect to how strict they are.
 And each recommends that you start out with not very strict settings.
+
+### Advanced note
+
+Static type checking doesn't undo Python's dynamic and structural type system.
+which is one of the reasons why many types are often best understood as
+[structural types](https://typing.python.org/en/latest/spec/glossary.html#term-structural)
+(based on what they support)
+instead of as
+[nominal types](https://typing.python.org/en/latest/spec/glossary.html#term-nominal)
+(based on what they are).
+In this way they are similar to Golang's interfaces and Rust's traits,
+but because Python types are dynamic,
+the need for some run time checking will never go away.
+Python will continue to quack like a duck.
+[Protocols](https://typing.python.org/en/latest/spec/protocol.html),
+introduced in Python 3.8,
+provide a good way to accommodate this while
+still being able to (largely)rely on the logic of types.
+
 
 ## Mindfulness about mutability
 
