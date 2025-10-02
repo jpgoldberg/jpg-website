@@ -29,3 +29,23 @@ div.highlight {
 
 @import "tufte";
 
+div.alert-advanced > div:first-child::before {
+  content: url("/images/dbend.pdf") / "Dangerous Bend";
+}
+
+.alert-advanced  {
+  color: #000000;
+  background-color: #d2d6cb;
+  border-color: #1976d2;
+}
+
+div.alert-advanced  {
+	font-size: smaller
+}
+
+div.alert-advanced img {
+  height: 1.4rem;
+  width: auto;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+}

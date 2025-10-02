@@ -430,8 +430,7 @@ with at least the things that I happen to use.
 Both of those can be configured with respect to how strict they are.
 And each recommends that you start out with not very strict settings.
 
-### Advanced note
-
+{{% callout "advanced" %}}
 Static type checking doesn't undo Python's dynamic and structural type system.
 which is one of the reasons why many types are often best understood as
 [structural types](https://typing.python.org/en/latest/spec/glossary.html#term-structural)
@@ -447,6 +446,7 @@ Python will continue to quack like a duck.
 introduced in Python 3.8,
 provide a good way to accommodate this while
 still being able to (largely)rely on the logic of types.
+{{% /callout %}}
 
 
 ## Mindfulness about mutability
