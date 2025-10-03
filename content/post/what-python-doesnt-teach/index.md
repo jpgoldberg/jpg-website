@@ -77,7 +77,7 @@ that Python lacks.
 Here I will point you to Pythonic ways to get some of what you seek while still,
 in the words of a very wise friend of mine, “letting Python be Python.”
 
-{{% callout "avanced" %}}
+{{% callout "advanced" %}}
 For the experienced programmer, it is important to note that the Python interpreter
 does not make use of the mechanisms described below,
 but these still have value in that they can still play a large role in reducing
