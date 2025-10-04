@@ -37,6 +37,7 @@ div.alert-advanced > div {
 
 div.alert-advanced > div:first-child::before {
   content: url("/images/dbend.pdf") / "Dangerous Bend";
+  width: 1.5rem; // This isn't affect the displayed width of the image.
 }
 
 
@@ -49,4 +50,32 @@ div.alert-advanced > div:first-child::before {
 
 div.alert-advanced  {
 	font-size: smaller
+}
+
+
+foo.dangerous-bend > div:first-child::before {
+  content: url('/images/dangerous-bend.svg');
+  width: 2rem; /* This has no effect on image size */
+  left: 1rem;
+
+}
+
+
+div.dangerous-bend {
+  margin-left: 30px;
+  border-style: solid;
+  border-width: thin;
+  font-size: smaller;
+  border-color: brown;
+  background-color: bisque;
+}
+
+.dangerous-bend-icon{
+  display: inline;
+  float: left;
+  height: 3rex;
+  width: auto;
+  vertical-align: top;
+  margin-top: 0px;
+  padding-top: 0ps;
 }
