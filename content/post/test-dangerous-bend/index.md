@@ -38,11 +38,17 @@ inserts a PDF imagine using something like
 
 
 {{% callout "advanced" %}}
-This makes use of `{{/* callout "advanced" */%}}`, and relies on the CSS shown 
+This makes use of `{{ callout "advanced" %}}`, and relies on the CSS shown
 the [custom css figure](#fig-custom-css).
 Nothing that I put in the highlit line or there abouts seems to have any
 impact on the size of the dangerous bend image. I do not know why.
 {{% /callout %}}
+
+Before `code` shortcode use.
+
+{{< code source="./custom.scss" title="class for alert-advanced" language="css" id="advanced" >}}
+
+After `code` shortcode
 
 ```scss {title = "alert-advanced class" linenos = true hl_lines = "8" id="fig-custom-css"}
 div.alert-advanced > div {
@@ -79,14 +85,22 @@ I do know, however that it is trying to fetch the image because if I typo the na
 I will get a build error.
 {{% /callout %}}
 
-Just before the `dbend` shortcode
+## Now for something completely different
+
+Here I have a special purpose `dbend` shortcode.
+
+
 
 {{< dbend >}}
-Trying the CSS that Google's AI recommended. Let's see how that works.
-I am skeptical, but I will continue to give it some test to work with.
-And let me add more text, as I am having problems with the exact placement things.
+This tries a simpler approach. It isn't using `callout.html` or a variant of it.
+Nor is it playing with loading the image with `content`.
+So with this I can set the size for the dangerous bend image,
+but I cannot seem to have it vertically aligned.
+Note that if you are reading this with some terrible color and border choices,
+those are there so that I can see what is going on.
 
-And even a second paragraph in here.
+Note also that the symbol takes up space to the left of the entire first paragraph,
+while subsequent paragraphs do extend leftward within the box.
 {{< /dbend >}}
 
 Just after the dbend shortcode.

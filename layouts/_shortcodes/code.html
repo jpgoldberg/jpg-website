@@ -1,0 +1,58 @@
+{{- /*
+    From https://gist.githubusercontent.com/marcusolsson/2e1553ae0a8e2206a3488bfb59062369/raw/b2585a08af1bdeda557fdcef7128f1ef9cf61302/code.html
+    Based on https://marcusolsson.dev/how-to-include-code-examples-from-file-with-hugo/
+    */ -}}
+{{ $title := .Get "title" }}
+{{ $source := .Get "source" }}
+{{ $language := .Get "language" }}
+{{ $options := .Get "options" }}
+{{ $id := .Get "id" }}
+
+{{ with .Page.Resources.GetMatch $source }}
+  {{ $snippet := .Content }}
+
+  {{/* Named snippets */}}
+  {{ if $id }}
+    {{ $lines := split $snippet "\n" }}
+
+    {{ $startTag := printf "START %s" $id }}
+    {{ $endTag := printf "END %s" $id }}
+
+    {{ $startl := -1 }}
+    {{ $endl := -1 }}
+
+    {{/* Find the lines that ends with the start and end tags. */}}
+    {{ range $index, $line := $lines }}
+      {{ if hasSuffix $line $startTag }}
+        {{ $startl = $index }}
+      {{ else if hasSuffix $line $endTag }}
+        {{ $endl = $index }}
+      {{ end }}
+    {{ end }}
+
+    {{/* Let's add some basic assertions. */}}
+    {{ if lt $startl 0 }}
+      {{ errorf "Named snippet is missing START tag" }}
+    {{ end }}
+
+    {{ if lt $endl 0 }}
+      {{ errorf "Named snippet is missing END tag" }}
+    {{ end }}
+
+    {{/* Size of the snippet in number of lines. */}}
+    {{ $snippetLen := sub (sub $endl $startl) 1 }}
+
+    {{/* Create slice with only the lines between the tags. */}}
+    {{ $includedLines := first $snippetLen (after (add $startl 1) $lines) }}
+
+    {{/* Join the lines into the final snippet. */}}
+    {{ $snippet = delimit $includedLines "\n" }}
+  {{ end }}
+
+  <figure class="codeblock">
+    {{ with $title }}
+      <figcaption class="codeblock__header">{{ $title }}</figcaption>
+    {{ end }}
+    {{ highlight (trim $snippet "\n\r") $language $options }}
+  </figure>
+{{ end }}

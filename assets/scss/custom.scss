@@ -29,53 +29,50 @@ div.highlight {
 
 @import "tufte";
 
+// START advanced
 div.alert-advanced > div {
   display: block;
-  font-size: 0.8rem;
+  font-size: smaller;
 }
-
 
 div.alert-advanced > div:first-child::before {
   content: url("/images/dbend.pdf") / "Dangerous Bend";
-  width: 1.5rem; // This isn't affect the displayed width of the image.
+  width: 1.5rem; // This doesn't affect the displayed width of the image.
 }
-
 
 .alert-advanced   {
   color: #000000;
   background-color: #d2d6cb;
   border-color: #1976d2;
 }
+// END advanced
 
 
-div.alert-advanced  {
-	font-size: smaller
-}
-
-
-foo.dangerous-bend > div:first-child::before {
+_removed.dangerous-bend > div:first-child::before {
   content: url('/images/dangerous-bend.svg');
   width: 2rem; /* This has no effect on image size */
   left: 1rem;
 
 }
 
-
+// START dangerous-bend
 div.dangerous-bend {
-  margin-left: 30px;
+  margin: auto;
+
+  font-size: smaller;
   border-style: solid;
   border-width: thin;
-  font-size: smaller;
-  border-color: brown;
-  background-color: bisque;
+  border-color: rgb(117, 223, 37);
+  // background-color: bisque;
+  padding: 0.5rem;
+  width: 80%;;
 }
 
-.dangerous-bend-icon{
-  display: inline;
-  float: left;
-  height: 3rex;
+.dangerous-bend-icon {
+  display: block;
+  height: 4rex;
   width: auto;
-  vertical-align: top;
-  margin-top: 0px;
-  padding-top: 0ps;
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
 }
+// END dangerous-bend
