@@ -10,7 +10,7 @@ categories: []
 date: 2025-10-03T18:46:29-05:00
 lastmod: 2025-10-03T18:46:29-05:00
 featured: false
-draft: false
+draft: true
 
 # Featured image
 # To use, add an image named `featured.jpg/png` to your page's folder.
@@ -27,6 +27,15 @@ image:
 #   Otherwise, set `projects = []`.
 projects: []
 ---
+
+I would like to have a Hugo shortcode that would give me something like the dangerous bend paragraphs in the The TeXBook.
+
+{{% figure src="./texbook-dbend.png"
+    alt="Text sample from The TeXbook with a paragraph labelled as a dangerous bend"
+    caption="Dangerous Bend example from The TeXBook"
+    class="w75"
+  %}}
+  
 
 My attempts to use and customize Hugo blox callouts have not gone well.
 

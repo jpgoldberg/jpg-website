@@ -66,10 +66,17 @@ for you to reason about your own code.
 ## Who are you?
 
 This article is roughly aimed at two audiences.
+{{% figure
+  src="/images/dangerous-bend.svg"
+  title="Dangerous Bend symbol"
+  class="floatright w-15"
+%}}
 You may be a Python programmer whose only programming experience is with Python
 and you have reached a stage where they are comfortable with defining functions,
-and you have understanding classes as a way to keep data and methods.
+and you have understanding classes as a way to keep data and methods together.
 You do not need to be familiar with class inheritance.
+Sections marked with the dangerous bend symbol
+are not intended for you and might just muddy the waters.
 
 Or perhaps you are coming to Python from some other language
 and you find yourself struggling to make use of certain important concepts
@@ -77,8 +84,8 @@ that Python lacks.
 Here I will point you to Pythonic ways to get some of what you seek while still,
 in the words of a very wise friend of mine, “letting Python be Python.”
 
-{{% callout "advanced" %}}
-For the experienced programmer, it is important to note that the Python interpreter
+{{% callout "note" %}}
+The Python interpreter
 does not make use of the mechanisms described below,
 but these still have value in that they can still play a large role in reducing
 human error when programming.
