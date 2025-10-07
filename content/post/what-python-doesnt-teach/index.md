@@ -43,17 +43,28 @@ you are learning two things (among others):
   
 These are intertwined of course,
 but it is important to keep in mind (1) is about learning how to
-think about an d solve certain sorts of puzzle.
+think about and solve certain sorts of puzzles and problems.
+It is a creative process in addition to becoming familiar with
+specific tools and tricks. It is an art, even if a highly technical one.
+
 Python is a fine choice as first language to learn for many of the reasons people say,
 in particular it doesn't get in the way of learning how to program as much as many alternative do.
 Indeed, Python allows the programmer to get on with things without
 forcing them the to make or specify certain distinctions
 that other programming languages do confront users with.
-This leaves people unaware of the distinctions and good practices
-that help avoid bugs.
+This makes it easier to get started with,
+but it comes with a price.
+Part of that price is that users may be left entirely unaware
+of some very important concepts of good software design.
 
-Quite simply most people who only learn Python will not even be aware of
-some very important concepts of good software design.
+Fortunately there are practices that you, a Python programmer,
+can follow that do allow you and and the users of your code
+to benefit from these concepts.
+These can help you avoid whole categories of subtle bugs
+that are often very difficult to debug.
+These practices will also help you reason more
+clearly about your own code.
+
 There are practices one can follow using those concepts
 that help avoid large categories of nasty bugs,
 but they typical Python-only path for learning to program
@@ -63,14 +74,11 @@ Understanding these concepts and following the kinds of practices I describe bel
 will help you avoid whole classes of subtle bugs and make it easier
 for you to reason about your own code.
 
+{{% toc %}}
+
 ## Who are you?
 
 This article is roughly aimed at two audiences.
-{{% figure
-  src="/images/dangerous-bend.svg"
-  title="Dangerous Bend symbol"
-  class="floatright w-15"
-%}}
 You may be a Python programmer whose only programming experience is with Python
 and you have reached a stage where they are comfortable with defining functions,
 and you have understanding classes as a way to keep data and methods together.
@@ -84,34 +92,45 @@ that Python lacks.
 Here I will point you to Pythonic ways to get some of what you seek while still,
 in the words of a very wise friend of mine, “letting Python be Python.”
 
-{{% callout "note" %}}
-The Python interpreter
-does not make use of the mechanisms described below,
-but these still have value in that they can still play a large role in reducing
-human error when programming.
-{{% /callout %}}
+{{% dbend %}}
+The practices described here do not change the nature of Python,
+as the interpreter
+does not make use of the mechanisms described below.
+Type hinting, for example, doesn't help the interpreter
+produce safer or more efficient bytecode.
+But there is automatic tooling that helps *people* develop
+safer code that is easier to reason about.
+As much as you might be irritated by deep facts about the nature of Python,
+do not under-estimate the benefits of the mechanisms available
+that help you, a human, write better code.
+{{% /dbend %}}
 
 ### Some terminology
 
 In much of what follows I will talk about the “user” of a class or function.
 That user not only can be some other person using a library or module that
-you share,
-but that user can be you.
+you share, but that user can be you.
 Even though you might know the details of a function or class you create when you
-create it, you will still need to communicate to yourself at a later time how
+create it,
+you will still need to communicate to yourself at a later time how
 your creations are expected to be used.
-I will also be lax in my use of the terms “function” versus ”method”, often using ”function” to include both.
+I will also be lax in my use of the terms “function” versus ”method”,
+often using ”function” to include both.
 Similarly, I will be lax in my use of “interpreter” versus “compiler”.
 The distinction matters for understanding why Python is the way that it is,
 but it doesn't matter for my discussion here.
 
 ## Respect for privacy {#sec-privacy}
 
-I will start with something that may be familiar with.
-Many Python-only developers have learned when to use "`_`" at the start
-of a variable name and when to use the `@property` decorator,
-but using this more familiar example helps illustrate the kind of thing
-I am discussing.
+I will start with a concept that probably will be familiar with.
+Many Python-only developers have learned
+when to use a single leading underscore, "`_`"
+for an attribute or method name.
+More detailed recommendations are in the
+[Public and Internal interfaces section](https://peps.python.org/pep-0008/#public-and-internal-interfaces) of PEP8.
+But I will be starting with this more familar concept and practice
+to help illustrate how such practices can be important.
+
 Many other programming languages force users to specify which attributes
 of a class are public and which are private,
 and the privacy is often enforced by the compiler.
