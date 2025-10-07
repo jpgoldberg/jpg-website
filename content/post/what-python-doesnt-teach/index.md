@@ -128,14 +128,20 @@ when to use a single leading underscore, "`_`"
 for an attribute or method name.
 More detailed recommendations are in the
 [Public and Internal interfaces section](https://peps.python.org/pep-0008/#public-and-internal-interfaces) of PEP8.
-But I will be starting with this more familar concept and practice
+But I will be starting with this more familiar concept and practice
 to help illustrate how such practices can be important.
 
-Many other programming languages force users to specify which attributes
+Many other programming languages force users to specify
+which methods and member variables
+(called ["attributes"](https://docs.python.org/3/glossary.html#term-attribute)
+in official documentation)
 of a class are public and which are private,
 and the privacy is often enforced by the compiler.
-But Python itself does not prevent you from accessing and changing any attribute of a class.
-As far as the language is concerned all parts are public.
+But Python itself does not prevent you from accessing and changing
+any attribute of a class.
+As far as the language is concerned all parts are public.[^2]
+
+[^2]: If you are tempted to quibble about leading double underscores, please don't.
 
 Let's see how that can cause trouble.
 I will be defining various classes for a point on a plane to illustrate things.
@@ -151,7 +157,8 @@ class Pnt1:
         self.theta = math.atan2(y, x)
 ```
 
-In our [definition of `Pnt1`](#code-Pnt1), we have a bunch of attributes,
+In our [definition of `Pnt1`](#code-Pnt1),
+we have a bunch of member variables,
 including `x`, `y`, `r`, and `theta`.
 All of these can be accessed and manipulated from outside of the the class.
 
@@ -174,12 +181,13 @@ may be be in distant parts of your code.
 
 To fix this we should either prevent (well discourage) the user from messing with
 the coordinates directly
-or, if we allow such manipulation, we make sure that the polar coordinates get updated
+or – if we allow such manipulation –
+we make sure that the polar coordinates get updated
 when the Cartesian coordinates change.
 There are Pythonic ways to do either,
 but I will focus my examples on the first approach.
-We will discourage the user of the class from manipulating the `x` and `y` values of a point after
-it has been created.
+We will discourage the user of the class from manipulating
+the `x` and `y` values of a point after it has been created.
 
 ```python {title = "A point with public properties" id="code-private-point" }
 class Point:
@@ -224,7 +232,11 @@ but when you are the user of the class or module,
 you would be setting yourself up for trouble when you do so.
 
 Using the decorator [`@property`](https://docs.python.org/3/library/functions.html#property)
-as we have done so will allow the user to access, but not change, the X value through `.x`
+as we have done so will allow the user to access, but not change, the X value through `.x`.
+Roughly speaking, using the `@property` makes the method look like
+like a variable member of a `Point` object, while giving the programmer
+control over what happens when it is accessed.
+
 
 ```python {title = "Setting a property is prevented" hl_lines = "5"}
 p2 = Point(-5, 12)
@@ -239,15 +251,15 @@ except AttributeError:
 If you are not yet familiar with `try` and `except` ignore that.
 I just wrapped this error in that so that my sample code still runs.
 
-Let me give another example of the kind of trouble that direct access to such attributes
-can lead to.
+Let me give another example of the kind of trouble
+that direct access to such attributes can lead to.
 For those of you who learned and recall anything about polar coordinates,
 you may know that angle theta (θ) could be stated in either degrees or radians.
 In what I have above it happens to be radians.
 But suppose you want the freedom to change your mind about the units to use internally
 in the non-public parts of your class without messing things up for the user.[^-273]
 
-[^-273]: The example of radians vs degrees is more than a bit contrived, but consider a class in which it is very useful to perform all computations regarding temperature in degrees Kelvin, while degrees Celsius is what makes the most sense for the user of the class.
+[^-273]: The example of radians vs degrees is more than a bit contrived, but consider a class in which it is very useful to perform all computations regarding degrees of *temperature* in degrees Kelvin, while degrees Celsius is what makes the most sense for the user of the class.
 
 You might add this property to your class.
 
@@ -319,7 +331,8 @@ def modified_time1(filename):
 ```
 
 If elsewhere in your code you treat what is returned from that as an integer
-strange things might happen. If you are lucky a `TypeError` will be raised quickly.
+strange things might happen.
+If you are lucky a `TypeError` will be raised quickly.
 That would help you find the bug fairly quickly.
 But sometimes the bug may surface much less directly.
 
@@ -388,7 +401,7 @@ c: str = f2(a)  # Type checker will report an error
 
 Passing an argument of an unexpected type can lead to hard to debug errors
 depending on things that may be deep inside the called function
-(including things that that function calls.
+including things that that function calls.
 But using type annotations and a type checker saves you and your users
 from many of those sorts of bugs.
 
@@ -429,15 +442,6 @@ def f3(text: str) -> str:
     return f"{n}/{d}"
 ```
 
-{{% callout note %}}
-In many other languages, type consistency is enforced by the compiler
-and the compiler uses that information to produce
-more efficient and safer binaries.
-Even though Python does not do this, using type annotations and
-running a static type checker will help the developer
-catch and prevent potential and subtle bugs early.
-{{% /callout %}}
-
 ### Some tools
 
 My goal has been to introduce the concept and benefits of static type checking in Python,
@@ -456,7 +460,7 @@ with at least the things that I happen to use.
 Both of those can be configured with respect to how strict they are.
 And each recommends that you start out with not very strict settings.
 
-{{% callout "advanced" %}}
+{{% dbend %}}
 Static type checking doesn't undo Python's dynamic and structural type system.
 which is one of the reasons why many types are often best understood as
 [structural types](https://typing.python.org/en/latest/spec/glossary.html#term-structural)
@@ -471,9 +475,8 @@ Python will continue to quack like a duck.
 [Protocols](https://typing.python.org/en/latest/spec/protocol.html),
 introduced in Python 3.8,
 provide a good way to accommodate this while
-still being able to (largely)rely on the logic of types.
-{{% /callout %}}
-
+still being able to (largely) rely on the logic of types.
+{{% /dbend %}}
 
 ## Mindfulness about mutability
 
@@ -502,7 +505,7 @@ remaining mindful of this sort of thing,
 and failure to be mindful of the consequences of mutation can lead
 subtle and difficult to identify bugs.
 
-Those bugs often arise because it is sometimes unclear whether whether a function
+Those bugs often arise because it is sometimes unclear whether a function
 changes any of its arguments.
 
 Consider the function `more_spam()`, which aims to double the
