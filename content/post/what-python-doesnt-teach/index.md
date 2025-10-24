@@ -83,7 +83,11 @@ You may be a Python programmer whose only programming experience is with Python
 and you have reached a stage where they are comfortable with defining functions,
 and you have understanding classes as a way to keep data and methods together.
 You do not need to be familiar with class inheritance.
-Sections marked with the dangerous bend symbol
+Sections marked with the dangerous bend symbol,
+“<img
+    src="/images/dangerous-bend.svg"
+    alt="dangerous bend"
+    style="display: inline; height: 1.4rcap; margin-top: 0px; margin-bottom: 0px;">”,
 are not intended for you and might just muddy the waters.
 
 Or perhaps you are coming to Python from some other language
@@ -250,7 +254,6 @@ as we have done so will allow the user to access, but not change, the X value th
 Roughly speaking, using the `@property` makes the method look like
 like a variable member of a `Point` object, while giving the programmer
 control over what happens when it is accessed.
-
 
 ```python {title = "Setting a property is prevented" hl_lines = "5"}
 p2 = Point(-5, 12)
