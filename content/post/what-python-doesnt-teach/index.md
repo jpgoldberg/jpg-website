@@ -7,10 +7,10 @@ summary: "Someone learning software development through Python alone might never
 authors: []
 tags: []
 categories: []
-date: 2025-09-21T17:34:51-05:00
-lastmod: 2025-09-21T17:34:51-05:00
+date: 2025-10-24T22:55:05+00:00
+lastmod: 2025-10-24T22:55:05+00:00
 featured: false
-draft: true
+draft: false
 
 # Featured image
 # To use, add an image named `featured.jpg/png` to your page's folder.
