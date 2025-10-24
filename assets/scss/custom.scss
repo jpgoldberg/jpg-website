@@ -63,16 +63,18 @@ div.dangerous-bend {
   border-style: solid;
   border-width: thin;
   border-color: rgb(117, 223, 37);
-  // background-color: bisque;
+  background-color: rgb(200, 220, 173);
   padding: 0.5rem;
   width: 80%;;
 }
 
 .dangerous-bend-icon {
-  display: block;
-  height: 4rex;
-  background-color: rgb(221, 226, 141);
+  display: inline;
+  float:inline-start;
+  height: calc(2cap + 1lh);
+  // background-color: rgb(221, 226, 141);
   width: auto;
+  margin-right: 0.5rem !important;
   margin-top: 0px !important;
   margin-bottom: 0px !important;
 }
