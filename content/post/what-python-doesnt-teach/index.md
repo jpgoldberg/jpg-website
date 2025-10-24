@@ -133,12 +133,13 @@ to help illustrate how such practices can be important.
 
 Many other programming languages force users to specify
 which methods and member variables
-(called ["attributes"](https://docs.python.org/3/glossary.html#term-attribute)
-in official documentation)
-of a class are public and which are private,
-and the privacy is often enforced by the compiler.
-But Python itself does not prevent you from accessing and changing
-any attribute of a class.
+(collectively called
+["attributes"](https://docs.python.org/3/glossary.html#term-attribute)
+in the Python world)
+of an object are public and which are private.
+In such languages privacy is often enforced by the compiler.
+But Python itself does not prevent the user from accessing and changing
+any attribute of a object.
 As far as the language is concerned all parts are public.[^2]
 
 [^2]: If you are tempted to quibble about leading double underscores, please don't.
@@ -231,6 +232,19 @@ where you have defined them,
 but when you are the user of the class or module,
 you would be setting yourself up for trouble when you do so.
 
+{{% dbend %}}
+There are sometimes reasons for public attributes to have names
+with a single leading underscore,
+typically to avoid naming conflicts with pre-existing naming practices;
+but that should be done only where all other options are worse.
+
+The primary way for
+[module](https://docs.python.org/3/glossary.html#term-module)
+writers to state which attributes are public
+is to define `__all__` to list exactly those identifiers
+which are defined and meant to be public.
+{{% /dbend %}}
+
 Using the decorator [`@property`](https://docs.python.org/3/library/functions.html#property)
 as we have done so will allow the user to access, but not change, the X value through `.x`.
 Roughly speaking, using the `@property` makes the method look like
@@ -274,9 +288,10 @@ You might add this property to your class.
 
 As long as the user stays away from accessing `._theta` they will not have to
 worry or know what units you use internally.
-Indeed you might choose not offer `.theta` at all, but just have
+Indeed you might choose not offer `.theta` as a property at all,
+but instead offer properties whose names specify the units
 
-```python
+```python {title ="Properties for each unit" id="fig-unit"}
 ...  # continue defining Point class
     @property
     def angle_degree(self):
@@ -287,7 +302,6 @@ Indeed you might choose not offer `.theta` at all, but just have
     def angle_radian(self):
         """Radians from positive X axis."""
         return self._theta)
-
 ```
 
 There are other Pythonic ways to keep the internals of a Point consistent,
