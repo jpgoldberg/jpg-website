@@ -60,6 +60,8 @@ markup:
     renderHooks:
       link:
         useEmbedded: "fallback"
+      image:
+        useEmbedded: "never"
 
 related:
   threshold: 80

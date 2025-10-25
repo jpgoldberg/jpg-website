@@ -1,0 +1,19 @@
+{{/* From https://github.com/loikein/hugo-tufte }}
+{{/* Shortcode to create an epigraph with optional author, citation, and detail.
+   Usage:
+   {{< epigraph author="Author Name" cite="Source Title" detail="Additional Info" >}}
+   Epigraph text goes here.
+   {{< /epigraph >}}
+*/}}
+<div class="epigraph">
+<blockquote>
+{{ .Inner | $.Page.RenderString (dict "display" "inline") }}
+{{ if .IsNamedParams }}
+    <footer>
+    {{- with .Get "author" -}}{{ . }}{{- end -}}
+    {{- with .Get "cite" -}}, <cite>{{ . | markdownify }}</cite>{{- end -}}
+    {{- with .Get "detail" -}}, {{ . | markdownify }}{{- end -}}
+    </footer>
+{{ end }}
+</blockquote>
+</div>

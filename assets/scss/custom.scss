@@ -26,3 +26,62 @@ figure.floatleft {
 div.highlight {
   background-color: burlywood;
 }
+
+@import "tufte";
+
+// START advanced
+div.alert-advanced > div {
+  display: block;
+  font-size: smaller;
+}
+
+div.alert-advanced > div:first-child::before {
+  content: url("/images/dbend.pdf") / "Dangerous Bend";
+  width: 1.5rem; // This doesn't affect the displayed width of the image.
+}
+
+.alert-advanced   {
+  color: #000000;
+  background-color: #d2d6cb;
+  border-color: #1976d2;
+}
+// END advanced
+
+
+_removed.dangerous-bend > div:first-child::before {
+  content: url('/images/dangerous-bend.svg');
+  width: 2rem; /* This has no effect on image size */
+  left: 1rem;
+
+}
+
+// START dangerous-bend
+div.dangerous-bend {
+  margin: auto;
+
+  font-size: smaller;
+  border-style: solid;
+  border-width: thin;
+  // Will need to set light and dark mode colors here at some point
+  border-color: rgb(117, 223, 37);
+  color: black;
+  background-color: rgb(200, 220, 173);
+  padding: 0.5rem;
+  width: 80%;;
+}
+
+.dangerous-bend-icon {
+  display: inline;
+  float:inline-start;
+  height: calc(2cap + 1lh);
+  width: auto;
+  margin-right: 0.5rem !important;
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+}
+// END dangerous-bend
+
+.w75 {
+  width: 75%;
+  margin: auto
+}

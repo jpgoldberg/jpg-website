@@ -2,15 +2,15 @@
 # Documentation: https://docs.hugoblox.com/managing-content/
 
 title: "Three things Python doesn't teach"
-subtitle: "That developers ought to learn"
+subtitle: "Distinguishing public vs private attributes, using the logic of types, and being mindful of mutability"
 summary: "Someone learning software development through Python alone might never learn how the power of types, attention to mutability, and the private/public distinction can be used to prevent many nasty bugs. This article tries to present some idea of how important those practices are and how to make use of those concepts while still letting “Python be Python.”"
 authors: []
 tags: []
 categories: []
-date: 2025-09-21T17:34:51-05:00
-lastmod: 2025-09-21T17:34:51-05:00
+date: 2025-10-24T22:55:05+00:00
+lastmod: 2025-10-24T22:55:05+00:00
 featured: false
-draft: true
+draft: false
 
 # Featured image
 # To use, add an image named `featured.jpg/png` to your page's folder.
@@ -28,51 +28,375 @@ image:
 projects: []
 ---
 
-When you learn to program with a particular particular language you are learning (at least)
-two things:
-(1) how to program,
-and (2) how to use the specific programming language that you are starting to program with.
-These, of course are intertwined. 
+{{< epigraph
+  author="Roman Jacobson"
+  cite="On Linguistic Aspects of Translation"
+  detail= "(1959)" >}}
+Languages differ essentially in what they must convey and not in what they may convey.
+{{< /epigraph >}}
+
+When you first learn to program with a particular language
+you are learning two things (among others):
+
+1. How to program;
+2. How to use that specific programming language for programming.
+  
+These are intertwined of course,
+but it is important to keep in mind (1) is about learning how to
+think about and solve certain sorts of puzzles and problems.
+It is a creative process in addition to becoming familiar with
+specific tools and tricks. It is an art, even if a highly technical one.
 
 Python is a fine choice as first language to learn for many of the reasons people say,
-but it leads to bad habits.
-What's worse is that those bad habits are habits of omission.
-Quite simply most people who only learn Python will not even be aware of very important concepts
-of good software design.
+in particular it doesn't get in the way of learning how to program as much as many alternative do.
+Indeed, Python allows the programmer to get on with things without
+forcing them the to make or specify certain distinctions
+that other programming languages do confront users with.
+This makes it easier to get started with,
+but it comes with a price.
+Part of that price is that users may be left entirely unaware
+of some very important concepts of good software design.
+
+Fortunately there are practices that you, a Python programmer,
+can follow that do allow you and and the users of your code
+to benefit from these concepts.
+These can help you avoid whole categories of subtle bugs
+that are often very difficult to debug.
+These practices will also help you reason more
+clearly about your own code.
+
 There are practices one can follow using those concepts
 that help avoid large categories of nasty bugs,
 but they typical Python-only path for learning to program
 is more likely to conceal the importance of these concepts than prepare learners to use them.
 
+Understanding these concepts and following the kinds of practices I describe below
+will help you avoid whole classes of subtle bugs and make it easier
+for you to reason about your own code.
+
+{{% toc %}}
+
+## Who are you?
 
 This article is roughly aimed at two audiences.
-The first is the Python programmer whose only programming experience is with Python and has reached a stage where they are comfortable with
-defining functions and has some sense of what classes are for.
-If you are first learning programming in Python but have not yet learned the basics,
-you may wish to take a look at this to understand that there are important practices
-that you might not be aware of 
+You may be a Python programmer whose only programming experience is with Python
+and you have reached a stage where they are comfortable with defining functions,
+and you have understanding classes as a way to keep data and methods together.
+You do not need to be familiar with class inheritance.
+Sections marked with the dangerous bend symbol,
+“<img
+    src="/images/dangerous-bend.svg"
+    alt="dangerous bend"
+    style="display: inline; height: 1.4rcap; margin-top: 0px; margin-bottom: 0px;">”,
+are not intended for you and might just muddy the waters.
 
-Python itself doesn’t provide enforceable means enforce better habits,
-nor does the Python interpreter itself make any use of the good practices I advocate in this section.
-But there are Pythonic conventions, tools, and practices will very much help developers avoid bugs
-as well as produce cleaner, more maintainable, and more readable code.
+Or perhaps you are coming to Python from some other language
+and you find yourself struggling to make use of certain important concepts
+that Python lacks.
+Here I will point you to Pythonic ways to get some of what you seek while still,
+in the words of a very wise friend of mine, “letting Python be Python.”
 
-These practices will help the developer reason more clearly about their own code.
+{{% dbend %}}
+The practices described here do not change the nature of Python,
+as the interpreter
+does not make use of the mechanisms described below.
+Type hinting, for example, doesn't help the interpreter
+produce safer or more efficient bytecode.
+But there is automatic tooling that helps *people* develop
+safer code that is easier to reason about.
+As much as you might be irritated by deep facts about the nature of Python,
+do not under-estimate the benefits of the mechanisms available
+that help you, a human, write better code.
+{{% /dbend %}}
+
+### Some terminology
+
+In much of what follows I will talk about the “user” of a class or function.
+That user not only can be some other person using a library or module that
+you share, but that user can be you.
+Even though you might know the details of a function or class you create when you
+create it,
+you will still need to communicate to yourself at a later time how
+your creations are expected to be used.
+I will also be lax in my use of the terms “function” versus ”method”,
+often using ”function” to include both.
+Similarly, I will be lax in my use of “interpreter” versus “compiler”.
+The distinction matters for understanding why Python is the way that it is,
+but it doesn't matter for my discussion here.
+
+## Respect for privacy {#sec-privacy}
+
+I will start with a concept that probably will be familiar with.
+Many Python-only developers have learned
+when to use a single leading underscore, "`_`"
+for an attribute or method name.
+More detailed recommendations are in the
+[Public and Internal interfaces section](https://peps.python.org/pep-0008/#public-and-internal-interfaces) of PEP8.
+But I will be starting with this more familiar concept and practice
+to help illustrate how such practices can be important.
+
+Many other programming languages force users to specify
+which methods and member variables
+(collectively called
+["attributes"](https://docs.python.org/3/glossary.html#term-attribute)
+in the Python world)
+of an object are public and which are private.
+In such languages privacy is often enforced by the compiler.
+But Python itself does not prevent the user from accessing and changing
+any attribute of a object.
+As far as the language is concerned all parts are public.[^2]
+
+[^2]: If you are tempted to quibble about leading double underscores, please don't.
+
+Let's see how that can cause trouble.
+I will be defining various classes for a point on a plane to illustrate things.
+
+```python {title = "A point with public attributes" id ="code-Pnt1"}
+class Pnt1:
+    def __init__(self, x: float, y: float):
+        self.x = x
+        self.y = y
+
+        # Polar coordinates
+        self.r = (self.x ** 2 + self.y ** 2) ** (1/2)
+        self.theta = math.atan2(y, x)
+```
+
+In our [definition of `Pnt1`](#code-Pnt1),
+we have a bunch of member variables,
+including `x`, `y`, `r`, and `theta`.
+All of these can be accessed and manipulated from outside of the the class.
+
+```python { title = "Inconsistent internal state" hl_lines ="6" linenos = "true" id = "code-inconsistant" }
+p = Pnt1(3, -4)
+print(p.r)  # approximately 5
+
+p.x = 0
+...  # imagine there were many lines of other code here
+print(p.r)  # Still 5, were you expecting 4?
+```
+
+Nothing about how `Pnt1` is presented to the user of the class tells us
+that setting `x` (as we do on line 4) to a different value will
+leave the point in an inconsistent state.
+In this small examples, it is usually easy to see where things go wrong,
+but keep in mind that where you might manipulates `p.x` (our line 4)
+and where you might make use of the radius in polar coordinates (our line 6)
+may be be in distant parts of your code.
+
+To fix this we should either prevent (well discourage) the user from messing with
+the coordinates directly
+or – if we allow such manipulation –
+we make sure that the polar coordinates get updated
+when the Cartesian coordinates change.
+There are Pythonic ways to do either,
+but I will focus my examples on the first approach.
+We will discourage the user of the class from manipulating
+the `x` and `y` values of a point after it has been created.
+
+```python {title = "A point with public properties" id="code-private-point" }
+class Point:
+    def __init__(self, x: float, y: float):
+        self._x = x
+        self._y = y
+
+        # Polar coordinates
+        self._r = (self._x ** 2 + self._y ** 2) ** (1/2)
+        self._theta = math.atan2(y, x)
+
+    @property
+    def x(self):
+        """Cartesian X coordinate."""
+        return self._x
+    ...
+    @property
+    def r(self):
+        """Polar radius"""
+        return self._r
+```
+
+Here we have used names beginning with "`_`" for those attributes of a point
+that we don't want to user to access or manipulate directly.
+We can't prevent users from doing so,
+but the naming convention tells the user that
+they really shouldn't be accessing those attributes that way.
+Many tools used with Python can work to reinforce that convention,
+but it is really on the user to understand use of attributes whose names
+begin with "`_`" from outside the module where those are defined is just asking for trouble.
+
+```python {title = "Disrespecting privacy" hl_lines ="3"}
+p2 = Point(-5, 12)
+print(p2.r)  # Approximately 13
+p2._x = 0  # Don't do this outside class or module where Point is defined
+print(p2.r)  # Still approximately 13, not 12
+```
+
+You are expected to use these private attributes within the class or module
+where you have defined them,
+but when you are the user of the class or module,
+you would be setting yourself up for trouble when you do so.
+
+{{% dbend %}}
+There are sometimes reasons for public attributes to have names
+with a single leading underscore,
+typically to avoid naming conflicts with pre-existing naming practices;
+but that should be done only where all other options are worse.
+
+The primary way for
+[module](https://docs.python.org/3/glossary.html#term-module)
+writers to state which attributes are public
+is to define `__all__` to list exactly those identifiers
+which are defined and meant to be public.
+{{% /dbend %}}
+
+Using the decorator [`@property`](https://docs.python.org/3/library/functions.html#property)
+as we have done so will allow the user to access, but not change, the X value through `.x`.
+Roughly speaking, using the `@property` makes the method look like
+like a variable member of a `Point` object, while giving the programmer
+control over what happens when it is accessed.
+
+```python {title = "Setting a property is prevented" hl_lines = "5"}
+p2 = Point(-5, 12)
+print(p2.r)  # Approximately 13
+print(p2.x)  # .x is still readable
+try:
+    p2.x = 0  #  This will be an error
+except AttributeError:
+    print("There was an error. Can't use .x to change a point")
+```
+
+If you are not yet familiar with `try` and `except` ignore that.
+I just wrapped this error in that so that my sample code still runs.
+
+Let me give another example of the kind of trouble
+that direct access to such attributes can lead to.
+For those of you who learned and recall anything about polar coordinates,
+you may know that angle theta (θ) could be stated in either degrees or radians.
+In what I have above it happens to be radians.
+But suppose you want the freedom to change your mind about the units to use internally
+in the non-public parts of your class without messing things up for the user.[^-273]
+
+[^-273]: The example of radians vs degrees is more than a bit contrived, but consider a class in which it is very useful to perform all computations regarding degrees of *temperature* in degrees Kelvin, while degrees Celsius is what makes the most sense for the user of the class.
+
+You might add this property to your class.
+
+```python
+...  # continue defining Point class
+    @property
+    def theta(self):
+        """Degrees from positive X axis."""
+        return math.degrees(self._theta)
+
+```
+
+As long as the user stays away from accessing `._theta` they will not have to
+worry or know what units you use internally.
+Indeed you might choose not offer `.theta` as a property at all,
+but instead offer properties whose names specify the units
+
+```python {title ="Properties for each unit" id="fig-unit"}
+...  # continue defining Point class
+    @property
+    def angle_degree(self):
+        """Degrees from positive X axis."""
+        return math.degrees(self._theta)
+
+    @property
+    def angle_radian(self):
+        """Radians from positive X axis."""
+        return self._theta)
+```
+
+There are other Pythonic ways to keep the internals of a Point consistent,
+but recall that I am not offering a tutorial on these techniques.
+Instead my goals in this section were first to illustrate why it is important to
+be mindful of of the public/private distinction even though it isn't built into Python,
+and second to illustrate the fact that there are Pythonic ways to
+make use of the distinction to help you reduce often subtle error errors.
+In this way this section has been a model for what is to come of the next two.
 
 ## The logic of types {#sec-types}
 
-Type annotations (also called “type hints”) are a must.
-This, along with writing unit tests, is what I would consider the top priorities.
-I recognize that the ability to do this well is relatively recent,
-but at this writing (September 2025) Python 3.9 has only a month to live,
-so one can start by using what is available for Python 3.10.
+There are things that we can do with some types of data that we can't do with others.
+For example, dividing by a string isn't something that is defined
 
-The most immediate gain from type annotations is that
-they serve as important documentation for functions and methods.
-They tell the people using your functions what data types/classes your function
-expects its arguments to be and the type of the data returned.
-They work hand-in-hand with docstrings in this respect.
+```console
+>>> 5 / "xyz"
+Traceback (most recent call last):
+  File "<python-input-3>", line 1, in <module>
+    5 / "xyz"
+    ~~^~~~~~~
+TypeError: unsupported operand type(s) for /: 'int' and 'str'
+```
 
+In that case we obviously were trying to divide by a string,
+and doing something peculiar with them.
+But it won't always be immediately obvious.
+
+Suppose you are making use a function that gets the modify time
+of a specified file.
+
+```python
+import os
+def modified_time1(filename):
+    """Modify time in seconds from the start of epoch"""
+    try:
+        mtime = os.stat(filename).st_mtime
+    except FileExistsError:
+        return None
+    return mtime
+```
+
+If elsewhere in your code you treat what is returned from that as an integer
+strange things might happen.
+If you are lucky a `TypeError` will be raised quickly.
+That would help you find the bug fairly quickly.
+But sometimes the bug may surface much less directly.
+
+If `modified_time` has proper type annotations for its return type,
+errors could be stopped earlier
+
+```python {title = "Function signature with type annotations" id="code-mtime-func"}
+def modified_time(filename: str) -> int | None:
+    """Modify time in seconds from the start of epoch."""
+    ...
+```
+
+That type annotation serves as important documentation
+to the user of the function.
+In addition to letting us know that it can sometimes return `None` it also
+lets us know that the argument to must be a string,
+so we know that the function is not intended to be used with
+a `pathlib.Path` or file descriptor.
+The function might *happen* to work with those other ways to identify files,
+but the author of the function is not promising that it will.
+
+In addition to serving as documentation to the user,
+this will give type checkers the information necessary to let you know that
+there is a a problem.
+
+Given the type annotated function signature we have for
+[`modified_time`](#code-mtime-func)
+the type checker will report an error on line 4 [the code below](#code-mtime-none).
+
+```python { hl_lines = "4" linenos = "true" id="code-mtime-none"}
+# Why would we want such a thing?
+# No good reason other than I failed to create a less contrived example
+mtime = modified_time("foo.txt")
+mtime_in_minutes = mtime / 60
+```
+
+Static type checkers can be run in several ways,
+one of which is within your code editor or
+{{< abbr "IDE" "Integrated Development Environment" >}}
+
+{{< figure
+    src="type-use-in-IDE.png"
+    alt="Screenshot portion of IDE window showing type error indicated and documentation of modified_time function on hover"
+    caption="Python VS Code extension shows function doc when function is hovered over and displays type errors as you make them."
+>}}
+
+I will now move on from my contrived example to more abstract examples.
 Consider two function signatures
 
 ```python { title="Two functions" verbatim=false }
@@ -94,13 +418,13 @@ c: str = f2(a)  # Type checker will report an error
 
 Passing an argument of an unexpected type can lead to hard to debug errors
 depending on things that may be deep inside the called function
-(including things that that function calls.
+including things that that function calls.
 But using type annotations and a type checker saves you and your users
 from many of those sorts of bugs.
 
 ```python { title = "Catching bugs early" hl_lines = "2" }
 b = f2("abc")
-d = f1(b)  # Type checker will report an error, as b us a float
+d = f1(b)  # Type checker will report an error, as b is a float
 ```
 
 In the example above, we have one intermediate variable, `b`
@@ -135,15 +459,6 @@ def f3(text: str) -> str:
     return f"{n}/{d}"
 ```
 
-{{% callout note %}}
-In many other languages, type consistency is enforced by the compiler
-and the compiler uses that information to produce
-more efficient and safer binaries.
-Even though Python does not do this, using type annotations and
-running a static type checker will help the developer
-catch and prevent potential and subtle bugs early.
-{{% /callout %}}
-
 ### Some tools
 
 My goal has been to introduce the concept and benefits of static type checking in Python,
@@ -161,6 +476,24 @@ with at least the things that I happen to use.
 
 Both of those can be configured with respect to how strict they are.
 And each recommends that you start out with not very strict settings.
+
+{{% dbend %}}
+Static type checking doesn't undo Python's dynamic and structural type system.
+which is one of the reasons why many types are often best understood as
+[structural types](https://typing.python.org/en/latest/spec/glossary.html#term-structural)
+(based on what they support)
+instead of as
+[nominal types](https://typing.python.org/en/latest/spec/glossary.html#term-nominal)
+(based on what they are).
+In this way they are similar to Golang's interfaces and Rust's traits,
+but because Python types are dynamic,
+the need for some run time checking will never go away.
+Python will continue to quack like a duck.
+[Protocols](https://typing.python.org/en/latest/spec/protocol.html),
+introduced in Python 3.8,
+provide a good way to accommodate this while
+still being able to (largely) rely on the logic of types.
+{{% /dbend %}}
 
 ## Mindfulness about mutability
 
@@ -182,14 +515,14 @@ print(''.join(d)) # abcxyz
 ```
 
 Changing `e` changed `d`,
-and the term for something that is changable is "mutable".
+and the term for something that is changeable is "mutable".
 
 Although this lesson is taught, it is hard to build up the habit of
 remaining mindful of this sort of thing,
 and failure to be mindful of the consequences of mutation can lead
 subtle and difficult to identify bugs.
 
-Those bugs often arise because it is sometimes unclear whether whether a function
+Those bugs often arise because it is sometimes unclear whether a function
 changes any of its arguments.
 
 Consider the function `more_spam()`, which aims to double the
@@ -222,15 +555,15 @@ Programming languages differ in the degree and manner in which they force
 the programmer to be mindful of mutability.
 Python itself doesn't force you to think about it until you are deep in
 debugging something that has gone wrong.
-But there are still a number of Pythonmic practices we should do
+But there are still a number of Pythonic practices we should do
 to reduce the kinds of bugs that this leads to.
 
 1. Functions that mutate their arguments should not also return a value.
-2. Follow function naming conventions that that provide some hint about this behavoir,
-   using a verb, "`spamify()`" for a mutating varient
+2. Follow function naming conventions that that provide some hint about this behavior,
+   using a verb, "`spamify()`" for a mutating variant
    and a de-verbal adjective,  "`spamified()`", for a non-mutating one.
    This is similar to Python's "`reverse`" vs "`reversed`" distinction.
-3. Use type annoations that indicate mutability.
+3. Use type annotations that indicate mutability.
 
 Much of the remainder of this section talks about (3),
 but to illustrate methods 1 and 2, we would have definitions like
@@ -249,7 +582,7 @@ def spamified1(ingredients: list[str]) -> list[str]:
     return doubled
 ```
 
-### The ABCs of distinguishing mutatabilty using types
+### The ABCs of distinguishing mutability using types
 
 We can use abstract types to give us early warning of potential
 mutation bugs
@@ -274,19 +607,19 @@ from collections.abc import Sequence, MutableSequence
 
 Here is a simple example of them in play.
 
-```python {hl_lines = "3 4" }
+```python {title="The typechecker warns about mutatin" hl_lines = "3 4" linenos = "true" }
 f: Sequence[str] = ['a', 'b', 'c']
 g = f
 g.extend(['x', 'y', 'z'])  # Type error "Sequence has not attribute 'extend'
 h: MutableSequence[str] = f  # Type error "Incompatible types ..."
 ```
 
-Because we said when we created `f` that we did not expect it to be mutatable
+Because we said when we created `f` (line 1) that we did not expect it to be mutable
 we were warned by the type checker that something was amiss.
-First we were told the `extend` method is not something that makes
+First (line 3) we were told the `extend` method is not something that makes
 sense for something immutable.
-And then we were warned that trying to assign an immutable thing
-to someting mutable isn't quite right either.
+And then (line 4) we were warned that trying to assign an immutable thing
+to something mutable isn't quite right either.
 
 We can, however, make a mutable copy of our sequence
 
@@ -317,24 +650,5 @@ def spamified(ingredients: Sequence[str]) -> Sequence[str]:
 
 Once again, the Python compiler doesn't make any use of the naming conventions
 and type annotations.
-But, once again, communicating intent to humans and to type checkers
+But communicating intent to humans and to type checkers
 does prevent us from introducing many nasty bugs.
-
-### About that Base
-
-I ducked a problem by using a list comprehension to copy the list in
-my [copy example](#code-copy-2-mutable)
-instead of the `copy()` method defined for lists.
-This is because `copy` is not an attribute that is declared for `Sequence`
-even though it is defined for lists.
-So the type checker would have treated `f.copy()` as a type error.
-
-This serves as a reminder that `Sequence` is not only an abstract class,
-but it is meant as a *base* class from which more specific classes can be created.
-I will not go into doing so here.
-
-## Respect for privacy {#sec-privacy}
-
-Every part of a Python object can be inspected or modified when the object is in scope. There are no truly private attributes. But we do have the conventions of naming things that should be treated as private with “_” as the leading character.
-
-In the class Point, users can change the value of x after the point is created. We might not want that.
