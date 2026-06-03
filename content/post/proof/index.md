@@ -2,7 +2,7 @@
 # Documentation: https://docs.hugoblox.com/managing-content/
 
 title: "On evidence for God"
-subtitle: "An answer to “what kind of evidence would convince you that God is real?æ"
+subtitle: "An answer to “what kind of evidence would convince you that God is real?"
 summary: "I am occasionally what kind of evidence would help persuade me to believe that there is a god. Here I outline my answer to those asking. If you are not asking me such a question, there is little reason to read this."
 authors: []
 tags: []
@@ -69,7 +69,7 @@ who doesn't assign such a low prior probability to the existence
 of God or gods,
 the same evidence that the atheist is seems to be explaining away
 is genuinely taken as meaningful evidence.
-Both the believer and the atheist are implicitly applying Bayes Rule
+Both the believer and the atheist are implicitly applying Bayes' Rule
 when evaluating evidence,
 but because of their different prior probabilities,
 they are treating the evidence very differently.
@@ -96,20 +96,46 @@ or “blessed is he who has not seen and yet believes.”
 Most of my answers of the kinds of evidence that would help convince me
 of the existence of a god very much involve testing god.
 And so if you believe that one can't test God,
-then there is no reason for you to read further beyond
-learning that there are tests that would go a long way to changing
-my mind about the existence of God.
+then there is no reason for you to read the details of such tests.
+Of course it would also mean that you should be upfront about that
+if asking an atheist what evidence they would find convincing.
+Furthermore if you hold such a position then I would encourage you
+to think about the role of evidence for God in belief.
 
-All of the tests below need to be reproducible,
-witnessed directly by me,
-and not something I could write off as a hallucination or dream.
+No single test is going to get me all the way to believing in God.
+After all, if I were to somehow become convinced
+that a super-powerful and super-intelligent entity created the universe
+that still wouldn't convince me it is still around much less care about my
+moral choices.
+But all such tests should meet the following criteria:
+
+1. Demonstrate a god-like capability that is beyond human or physical capability;
+2. Be witnessed by me;
+3. Be verifiable by me;
+4. Not be something I could write off as a hallucination or dream.
+
+The test, below, of super-intelligence, clearly meets those.
+
 
 ## A test of super-intelligence
 
-My first go so far as showing the existence of a miracle worker
-or a Great Designer. It could be satisfied by any intelligence that
-exceeds the collective capacity of humanity today.
+Anything worth calling a god should have a mind and be super-intelligent.
+I am not demanding omniscience, nor would I know how to test that.
+But testing super-intelligence is easy,
+and any super-intelligent entity that wanted to reveal its existence to me could do so easily.
 
-## A test of physical miracles
 
-## A test of intentional design
+
+Factoring a carefully constructed very large numbers is currently beyond the capacity
+of the combined efforts of all humanity and all of our computing equipment combined.
+And so anything that can factor such number has a capability beyond all of humanity.
+
+Anyone with access to a computer and the software for generating RSA keys can create one.
+Here is how I created one such number using Python and my own toy (not secure)
+RSA key generation code,
+
+
+
+
+
+
