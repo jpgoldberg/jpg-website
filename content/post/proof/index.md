@@ -171,32 +171,58 @@ and in [n-multiline.txt](./n-multiline.txt), broken up into multiple lines.
 It is not humanly possible to cheat at factoring the number,
 but there are a couple of ways to cheat that
 might make it appear that the challenge has been met.
-The discussion in this section is only of interest to anyone
-who may wish to build on what I said here to conduct a more high profile test.
-My purpose has been to illustrate
-that a super-intellegent entity could reveal its existence to
-me if it wished to.
-I believe I have succeeded in that.
+In particular, someone could change the number
+to a different number for which they have the factors.
+That is, they could create a different product of two large prime,
+but retain the primes it was created with.
+Then they could compromise computer or network systems to replace
+the number I created with a number that they can factor.
 
-Here I just wish to sketch how people could appear to solve the challenge
-and ways to make that more difficult.
+As a conseuence, if someone tells me that God has factored my challenge number
+for them and provides correct factors,
+I would require a more carefully audited process for guaranteeing
+that they have factored the number I created.
+It is doable, but tedious, to build in those guarentees.
 
-One way to cheat is to simply hack into my systems
-or the systems the challenge number is hosted on
-and change the challenge number after the fact.
-I have to assume that it is humanly possible for some group of people to have modified
-what you are reading now to use a similar 617 digit number for which the factors
-are retained.
-The defenses against that inolved using time-stamped digital
-signtures or other forms of noterazing the challange number, and getting
-this challenge uniquely into the public record.
+I don't anticipate needing to do so, but I have put in partial
+defences, which should raise the cost of someone trying to cheat
+to a point at which I hope they don't bother.
 
-Given what I have stated, it would be possible for me to cheat in the other direction.
-It is possible that I lied about not retaining the prime factors (I didn't lie, but
-you don't know that) and then later falsely claim that the challenge has been solved
-when it hasn't been.
-There are more expensive and tedious ways to prevent that kind of cheating.
-Those involve having the challange number created using an attested system.
-Of course, if I were to cheat that way, it would only allow me to falsely assert that
-the factors have been revealed.
-It would not help persaude me that a super-intellegent entitity exists.
+{{% spoiler text="Digital signatures and trusted timestamps" %}}
+
+Included here is a digital signature, [n.txt.signed](./n.txt.signed)
+of the file containing the number.
+It was created with using my [keybase](https://keybase.io/) ID,
+[jpgoldberg](https://keybase.io/jpgoldberg), with the command
+
+```console
+keybase sign -i n.txt -o n.txt.signed
+```
+
+I created a time stamp of the the signature file,
+n_txt_signed.tsr](./n_txt_signed.tsr),
+using
+[freeTSA.org](https://www.freetsa.org/index_en.php)
+
+These alone do not prevent all sorts of cheating,
+but they can be made more rigourous for a repeated experiment
+if necessary.
+{{% /spoiler %}}
+
+## One of many possible examples
+
+There are other repeatable and independly variefiable
+ways to test various capabilities of something worth calling a god.
+For example, an entity that can perform miracles could, say,
+reduce gravity by 95% at a time and place of my choosing.
+I could record and invite others to witness the event.
+And if I pick my location carefully, this would be a great help
+with me re-arranging some furniture.
+
+A deity that wanted to reveal its extistence to me could do so in ways
+that I would find persuasive.
+Although that kinds of evidence that I require may differ from the kinds of
+evidence that someone much less skeptical than I am would require,
+providing the evidence that would convince me should be well within
+the powers of a super-powerful, super-intellegent entity that wants
+me to know it exists.
